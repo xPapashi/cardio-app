@@ -1,45 +1,25 @@
 import { useState } from "react";
-import MealList from "./MealList";
+import Navbar from "./Navbar";
+
+import Home from "./pages/Home";
+import RecipeGenerator from "./pages/RecipeGenerator";
+import Account from "./pages/Account";
+import { Route, Routes } from "react-router-dom";
+
 import "./App.css";
 
 function App() {
-  const [mealData, setMealData] = useState(null);
-  const [calorieData, setCalorieData] = useState(3000);
-
-  function handleChange(e) {
-    setCalorieData(e.target.value);
-  }
-
-  function getMeals() {
-    fetch(
-      `https://api.spoonacular.com/mealplanner/generate?apiKey=8c9e2030a89b49bab9b757750079c0e4&timeFrame=day&targetCalories=${calorieData}`
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        setMealData(data);
-        console.log(data);
-      })
-      .catch(() => {
-        console.log("ERROR: Failed to capture meal data from API!");
-      });
-  }
+  
 
   return (
     <>
       <div className="App">
-        <nav>
-          <ul>
-            <li><a href="" className="home">Home</a></li>
-            <li><a href="" className="recipeGen">Recipe Generator</a></li>
-            <li><a href="" className="account">Account</a></li>
-          </ul>
-        </nav>
-        <section className="controls">
-          <h1>Calorie Recipe Generator</h1>
-          <input type="number" placeholder="Calories: 3000" onChange={handleChange} />
-          <button onClick={getMeals}>Generate Meals</button>
-          {mealData && <MealList mealData={mealData} />}
-        </section>
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/RecipeGenerator" element={<RecipeGenerator />} />
+          <Route path="/Account" element={<Account />} />
+        </Routes>
       </div>
     </>
   );
