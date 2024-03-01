@@ -1,0 +1,38 @@
+.dow-container {
+  display: flex;
+  justify-content: center;
+}
+
+.box {
+  display: flex;
+  justify-content: center;
+  background-color: #eceaea;
+  padding: 0.5rem;
+  border-radius: 6px;
+  gap: 0.5rem;
+  box-shadow: 0px 9px 9px 1px rgba(66, 66, 66, 0.35);
+}
+
+.day {
+  background-color: #646cff;
+  color: #eceaea;
+  /* transition: 0.25s ease; */
+  transition: border-color 0.25s;
+}
+
+.day:hover { 
+    background-color: white;
+    color: #646cff;
+}
+
+.title-container {
+    display: flex;
+    justify-content: center;
+}
+
+.dow-title {
+    background-color: #eceaea;
+    padding: 0.25rem 4rem 0 4rem;
+    border-radius: 6px 6px 0 0;
+    font-weight: 500;
+}

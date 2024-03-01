@@ -1,4 +1,3 @@
-import { useState } from "react";
 import Navbar from "./Navbar";
 
 import Home from "./pages/Home";
@@ -7,6 +6,7 @@ import Account from "./pages/Account";
 import { Route, Routes } from "react-router-dom";
 
 import "./App.css";
+import "./index.css";
 
 function App() {
   

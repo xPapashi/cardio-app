@@ -1,6 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import MealList from "../MealList";
+import "./RecipeGenerator.css";
 
 export default function RecipeGenerator() {
   const [mealData, setMealData] = useState(null);
@@ -28,7 +29,9 @@ export default function RecipeGenerator() {
     <section className="controls">
       <h1>Calorie Recipe Generator</h1>
       <input type="number" placeholder="Calories: 3000" onChange={handleChange} />
-      <button onClick={getMeals}>Generate Meals</button>
+      <button className="text-white px-4" onClick={getMeals}>
+        Generate Meals
+      </button>
       {mealData && <MealList mealData={mealData} />}
     </section>
   );
