@@ -8,7 +8,7 @@ export default function Navbar() {
         <ul>
           <CustomLink to="/" className="home">Home</CustomLink>
           <CustomLink to="/RecipeGenerator" className="recipeGen">Recipe Generator</CustomLink>
-          <CustomLink to="/Account" className="account">Account</CustomLink>
+          <CustomLink to="/Account" dir="rtl" className="account">Account</CustomLink>
         </ul>
       </nav>
     </>
