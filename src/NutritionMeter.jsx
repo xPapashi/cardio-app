@@ -202,63 +202,68 @@ const NutritionMeter = () => {
                   <div className="progress">
                     <progress max={100} value={30}></progress>
                   </div>
-                  <div className="amount-left">
-                    {totalCarbs()}g
-                  </div>
+                  <div className="amount-left">{totalCarbs()}g</div>
                 </div>
                 <div className="macro-item">
                   <div className="name">PROTEIN</div>
                   <div className="progress">
                     <progress max={100} value={30}></progress>
                   </div>
-                  <div className="amount-left">
-                    {totalProtein()}g
-                  </div>
+                  <div className="amount-left">{totalProtein()}g</div>
                 </div>
                 <div className="macro-item">
                   <div className="name">Fat</div>
                   <div className="progress">
                     <progress max={100} value={30}></progress>
                   </div>
-                  <div className="amount-left">
-                    {totalFat()}g
-                  </div>
+                  <div className="amount-left">{totalFat()}g</div>
                 </div>
               </div>
             </div>
           </div>
           <div className="right">
             <div className="meals-container">
+              <div className="foods-title">FOODS</div>
               {nutritionItems.map((item) => (
                 <div key={item.id} className="meal">
-                  <h2 className="meal-title">{item.name}</h2>
-                  <ul className="meal-nurtients">
-                    <li>Calories: {item.calories * item.quantity}</li>
-                    <li>Protein: {item.protein * item.quantity}g</li>
-                    <li>Carbs: {item.carbs * item.quantity}g</li>
-                    <li>Fat: {item.fat * item.quantity}g</li>
-                    <li className="meal-buttons">
-                      <button className="meal-btn" onClick={() => updateItemQuantity(item.id, 1)}>
-                        <FontAwesomeIcon icon={faPlus} />
-                      </button>
-                      <span className="meal-quantity">{item.quantity}</span>
-                      <button className="meal-btn" onClick={() => updateItemQuantity(item.id, -1)}>
-                        <FontAwesomeIcon icon={faMinus} />
-                      </button>
-                    </li>
-                  </ul>
+                  <div className="meal-info">
+                    <div className="meal-top-section">
+                      <h2 className="meal-title">{item.name} - </h2>
+                      <li>Calories: {item.calories * item.quantity}</li>
+                    </div>
+                    <div className="meal-bottom-section">
+                      <ul className="meal-nutrients">
+                        <li>Protein: {item.protein * item.quantity}g</li>
+                        <li>Carbs: {item.carbs * item.quantity}g</li>
+                        <li>Fat: {item.fat * item.quantity}g</li>
+                        {/* <li className="meal-buttons">
+                        <button className="meal-btn" onClick={() => updateItemQuantity(item.id, 1)}>
+                          <FontAwesomeIcon icon={faPlus} />
+                        </button>
+                        <span className="meal-quantity">{item.quantity}</span>
+                        <button
+                          className="meal-btn"
+                          onClick={() => updateItemQuantity(item.id, -1)}
+                        >
+                          <FontAwesomeIcon icon={faMinus} />
+                        </button>
+                      </li> */}
+                      </ul>
+                    </div>
+                  </div>
+
                   <div className="meal-edit-buttons">
                     <button className=".meal-edit-btn" onClick={() => editItemFunction(item)}>
-                      <FontAwesomeIcon icon={faEdit} /> Edit
+                      <FontAwesomeIcon icon={faEdit} />
                     </button>
                     <button className=".meal-edit-btn" onClick={() => deleteItemFunction(item.id)}>
-                      <FontAwesomeIcon icon={faTrashAlt} /> Delete
+                      <FontAwesomeIcon icon={faTrashAlt} />
                     </button>
                   </div>
                 </div>
               ))}
             </div>
-            <div className="form-container">
+            {/* <div className="form-container">
               <div className="form-inputs">
                 <div>
                   <input
@@ -326,7 +331,7 @@ const NutritionMeter = () => {
                   Clear All
                 </button>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

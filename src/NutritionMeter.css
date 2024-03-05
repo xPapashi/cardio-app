@@ -39,7 +39,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-width: 400px;
+  min-width: 350px;
   border: 2px solid gray;
   padding: 4rem 2rem 2rem 2rem;
   border-radius: 6px;
@@ -130,31 +130,64 @@
 
 .meals-container {
   margin-bottom: 2rem;
+  border: 2px solid gray;
+  border-radius: 6px;
+  height: 100%;
+}
+
+.foods-title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-weight: 700;
+  font-size: 1.5rem;
+  margin-top: 1rem;
+}
+
+.foods-title::after {
+  content: "";
+  min-width: 60px;
+  padding-top: 4px;
+  background-color: #646cff;
 }
 
 .meal {
+  display: flex;
   background-color: white;
   padding: 1rem;
   border-radius: 6px;
-  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-  border: 2px solid blue;
+  /* box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1); */
   transition: transform 0.3s ease;
 }
 
-.meal:hover {
-  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-  transform: scale(1.05);
+.meal-info {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding-right: 3rem;
+}
+
+.meal-top-section {
+  display: flex;
+  align-items: baseline;
+  list-style-type: none;
+  gap: 0.4rem;
 }
 
 .meal-title {
   font-size: 1.125rem;
   line-height: 1.75rem;
   font-weight: 600;
-  color: gray;
+  margin: 0;
+}
+
+.meal-bottom-section {
 }
 
 .meal-nutrients {
-  margin-top: 0.75rem;
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
 }
 
 .meal-buttons {
@@ -180,9 +213,8 @@
 }
 
 .meal-edit-buttons {
-  margin-top: 0.75rem;
   display: flex;
-  justify-content: space-between;
+  align-items: center;
 }
 
 .meal-edit-btn {
