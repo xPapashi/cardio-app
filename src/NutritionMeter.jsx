@@ -63,6 +63,7 @@ const NutritionMeter = () => {
   const [totalCalories, setTotalCalories] = useState(0);
   const [showWarning, setShowWarning] = useState(false);
   const [inputError, setInputError] = useState(false);
+  const [calorieGoal, setCalorieGoal] = useState(2500);
 
   useEffect(() => {
     const calculateTotalCalories = nutritionItems.reduce(
@@ -72,12 +73,29 @@ const NutritionMeter = () => {
 
     setTotalCalories(calculateTotalCalories);
 
-    if (calculateTotalCalories > 1000) {
+    if (calculateTotalCalories > calorieGoal) {
       setShowWarning(true);
     } else {
       setShowWarning(false);
     }
-  }, [nutritionItems]);
+
+    caloriesProgress();
+
+  }, [nutritionItems, totalCalories]);
+
+  const caloriesLeft = () => {
+    const remainingCalories = calorieGoal - totalCalories;
+
+    return remainingCalories >= 0 ? remainingCalories : 0;
+  };
+
+  const caloriesProgress = () => {
+    let totalCaloriesPercentage = ((totalCalories / calorieGoal) * 100).toFixed(0);
+
+    const root = document.documentElement;
+    root.style.setProperty("--progress-value", totalCaloriesPercentage);
+  };
+
 
   const addNutritionItem = () => {
     if (
@@ -95,6 +113,8 @@ const NutritionMeter = () => {
         carbs: "",
         fat: "",
       });
+      
+
       setInputError(false);
     } else {
       setInputError(true);
@@ -103,6 +123,7 @@ const NutritionMeter = () => {
 
   const removeAllItems = () => {
     setNutritionItems([]);
+    
   };
 
   const editItemFunction = (item) => {
@@ -129,6 +150,7 @@ const NutritionMeter = () => {
       });
       setEditItem(null);
       setInputError(false);
+      
     } else {
       setInputError(true);
     }
@@ -175,7 +197,7 @@ const NutritionMeter = () => {
         {showWarning && (
           <div className="warning">
             <FontAwesomeIcon icon={faTimes} className="icon-warning" />
-            Total calories exceed recommended limit (1000 calories)!
+            Total calories exceed recommended limit ({calorieGoal} calories)!
           </div>
         )}
         <div className="sides">
@@ -183,14 +205,14 @@ const NutritionMeter = () => {
             <div className="nutrients-total">
               <div className="calorie-goal">
                 <div className="progress-text">
-                  <span className="bold-text">2500</span>
+                  <span className="bold-text">{caloriesLeft()}</span>
                   <span className="regular-text">CALS LEFT</span>
                 </div>
               </div>
               <div className="calorie-summary">
                 <p>Calories Consumed: {totalCalories}</p>
                 <p>
-                  Calories Goal: 3000{" "}
+                  Calories Goal: {calorieGoal}{" "}
                   <span id="nutrition-icon">
                     <FontAwesomeIcon icon={faUtensils} size="lg" />
                   </span>
@@ -263,7 +285,7 @@ const NutritionMeter = () => {
                 </div>
               ))}
             </div>
-            {/* <div className="form-container">
+            <div className="form-container">
               <div className="form-inputs">
                 <div>
                   <input
@@ -331,7 +353,7 @@ const NutritionMeter = () => {
                   Clear All
                 </button>
               </div>
-            </div> */}
+            </div>
           </div>
         </div>
       </div>
