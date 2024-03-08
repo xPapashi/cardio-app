@@ -49,13 +49,6 @@
   border-radius: 6px;
 }
 
-@keyframes progress {
-  to {
-    background: radial-gradient(closest-side, white 87%, transparent 88% 100%),
-    conic-gradient(#646cff calc(var(--progress-value) * 1%), #eceaea 0);
-  }
-}
-
 .calorie-goal {
   display: flex;
   justify-content: center;
@@ -66,7 +59,7 @@
   border-radius: 50%;
   background: radial-gradient(closest-side, white 87%, transparent 88% 100%),
     conic-gradient(#646cff calc(var(--progress-value) * 1%), #eceaea 0);
-  animation: progress 2s 1 forwards;
+  animation: --progress-value 2s 1 forwards;
 }
 
 .progress-text {

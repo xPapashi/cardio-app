@@ -16,7 +16,6 @@
 .day {
   background-color: #646cff;
   color: #eceaea;
-  /* transition: 0.25s ease; */
   transition: border-color 0.25s;
 }
 
@@ -27,6 +26,9 @@
 
 .day:focus {
   outline: none;
+  border-color: #646cff;
+  background-color: white;
+  color: #646cff;
 }
 
 .title-container {
