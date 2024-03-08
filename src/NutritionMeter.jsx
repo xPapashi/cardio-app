@@ -7,6 +7,9 @@ import {
   faPlus,
   faMinus,
   faTimes,
+  faWheatAwn,
+  faDna,
+  faDroplet,
 } from "@fortawesome/free-solid-svg-icons";
 import "./NutritionMeter.css";
 
@@ -80,7 +83,6 @@ const NutritionMeter = () => {
     }
 
     caloriesProgress();
-
   }, [nutritionItems, totalCalories]);
 
   const caloriesLeft = () => {
@@ -96,6 +98,32 @@ const NutritionMeter = () => {
     root.style.setProperty("--progress-value", totalCaloriesPercentage);
   };
 
+  const calculateTotalCarb = () => {
+    //2500 calories multiply by 55% average daily carb intake
+    //343.75 divied by 4 to get carb grams
+    const carbCalories = calorieGoal * 0.55;
+    const totalCarbGram = (carbCalories / 4).toFixed(0);
+
+    return totalCarbGram;
+  };
+
+  const calculateTotalProtein = () => {
+    //2500 calories multiply by 22.5% average daily protein intake
+    //562.5 divide by 4 to get protein grams
+    const proteinCalories = calorieGoal * 0.225;
+    const totalProtienGram = (proteinCalories / 4).toFixed(0);
+
+    return totalProtienGram;
+  };
+
+  const calculateTotalFat = () => {
+    //2500 calories multiply by 27.5% average daily fat intake
+    //687.5 divide by 9 to get fat grams
+    const fatCalories = calorieGoal * 0.275;
+    const totalFatGram = (fatCalories / 9).toFixed(0);
+
+    return totalFatGram;
+  };
 
   const addNutritionItem = () => {
     if (
@@ -113,7 +141,6 @@ const NutritionMeter = () => {
         carbs: "",
         fat: "",
       });
-      
 
       setInputError(false);
     } else {
@@ -123,7 +150,6 @@ const NutritionMeter = () => {
 
   const removeAllItems = () => {
     setNutritionItems([]);
-    
   };
 
   const editItemFunction = (item) => {
@@ -150,7 +176,6 @@ const NutritionMeter = () => {
       });
       setEditItem(null);
       setInputError(false);
-      
     } else {
       setInputError(true);
     }
@@ -222,21 +247,21 @@ const NutritionMeter = () => {
                 <div className="macro-item">
                   <div className="name">CARB</div>
                   <div className="progress">
-                    <progress max={100} value={30}></progress>
+                    <progress max={calculateTotalCarb()} value={totalCarbs()}></progress>
                   </div>
                   <div className="amount-left">{totalCarbs()}g</div>
                 </div>
                 <div className="macro-item">
                   <div className="name">PROTEIN</div>
                   <div className="progress">
-                    <progress max={100} value={30}></progress>
+                    <progress max={calculateTotalProtein()} value={totalProtein()}></progress>
                   </div>
                   <div className="amount-left">{totalProtein()}g</div>
                 </div>
                 <div className="macro-item">
                   <div className="name">Fat</div>
                   <div className="progress">
-                    <progress max={100} value={30}></progress>
+                    <progress max={calculateTotalFat()} value={totalFat()}></progress>
                   </div>
                   <div className="amount-left">{totalFat()}g</div>
                 </div>
@@ -255,9 +280,18 @@ const NutritionMeter = () => {
                     </div>
                     <div className="meal-bottom-section">
                       <ul className="meal-nutrients">
-                        <li>Protein: {item.protein * item.quantity}g</li>
-                        <li>Carbs: {item.carbs * item.quantity}g</li>
-                        <li>Fat: {item.fat * item.quantity}g</li>
+                        <li>
+                          <FontAwesomeIcon icon={faDna} className="icon-warning" />
+                          Protein: {item.protein * item.quantity}g
+                        </li>
+                        <li>
+                          <FontAwesomeIcon icon={faDroplet} className="icon-warning" />
+                          Carbs: {item.carbs * item.quantity}g
+                          </li>
+                        <li>
+                        <FontAwesomeIcon icon={faWheatAwn} className="icon-warning" />
+                          Fat: {item.fat * item.quantity}g
+                          </li>
                         {/* <li className="meal-buttons">
                         <button className="meal-btn" onClick={() => updateItemQuantity(item.id, 1)}>
                           <FontAwesomeIcon icon={faPlus} />

@@ -25,6 +25,10 @@
     color: #646cff;
 }
 
+.day:focus {
+  outline: none;
+}
+
 .title-container {
     display: flex;
     justify-content: center;

@@ -6,8 +6,7 @@
   background-color: white;
   /* min-height: 100vh; */
   margin-top: 2rem;
-  box-shadow: 0px -21px 13px -21px rgba(0,0,0,0.45),
-0px 25px 20px -20px rgba(0,0,0,0.45);
+  box-shadow: 0px -21px 13px -21px rgba(0, 0, 0, 0.45), 0px 25px 20px -20px rgba(0, 0, 0, 0.45);
 }
 .container {
   margin: auto;
@@ -37,7 +36,8 @@
   gap: 4em;
 }
 
-.left {}
+.left {
+}
 
 .nutrients-total {
   display: flex;
@@ -49,6 +49,13 @@
   border-radius: 6px;
 }
 
+@keyframes progress {
+  to {
+    background: radial-gradient(closest-side, white 87%, transparent 88% 100%),
+    conic-gradient(#646cff calc(var(--progress-value) * 1%), #eceaea 0);
+  }
+}
+
 .calorie-goal {
   display: flex;
   justify-content: center;
@@ -57,10 +64,9 @@
   width: 180px;
   height: 180px;
   border-radius: 50%;
-  background: 
-    radial-gradient(closest-side, white 87%, transparent 88% 100%),
+  background: radial-gradient(closest-side, white 87%, transparent 88% 100%),
     conic-gradient(#646cff calc(var(--progress-value) * 1%), #eceaea 0);
-    animation: progress 2s 1 forwards;
+  animation: progress 2s 1 forwards;
 }
 
 .progress-text {
@@ -85,7 +91,7 @@
   margin-bottom: 2rem;
 }
 
-.calorie-summary p{
+.calorie-summary p {
   font-weight: 100;
   margin: 0.5rem;
 }
@@ -114,8 +120,8 @@
 .progress progress[value]::-webkit-progress-value {
   background-color: #646cff;
   border-radius: 6px;
+  transition: width 0.5s ease;
 }
-
 
 .right {
   display: flex;
