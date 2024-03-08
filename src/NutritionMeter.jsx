@@ -13,7 +13,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import "./NutritionMeter.css";
 
-const NutritionMeter = () => {
+const NutritionMeter = ({selectedDay}) => {
   const defaultItemsDisplayed = [
     {
       id: 1,
@@ -215,10 +215,11 @@ const NutritionMeter = () => {
     return nutritionItems.reduce((total, item) => total + parseFloat(item.fat) * item.quantity, 0);
   };
 
+
   return (
     <div className="wrapper">
       <div className="container">
-        <h1 className="Title">TODAY</h1>
+        <h1 className="Title">{selectedDay}</h1>
         {showWarning && (
           <div className="warning">
             <FontAwesomeIcon icon={faTimes} className="icon-warning" />
