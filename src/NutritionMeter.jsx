@@ -7,6 +7,9 @@ import {
   faPlus,
   faMinus,
   faTimes,
+  faWheatAwn,
+  faDna,
+  faDroplet,
 } from "@fortawesome/free-solid-svg-icons";
 import "./NutritionMeter.css";
 
@@ -80,7 +83,6 @@ const NutritionMeter = () => {
     }
 
     caloriesProgress();
-
   }, [nutritionItems, totalCalories]);
 
   const caloriesLeft = () => {
@@ -123,7 +125,6 @@ const NutritionMeter = () => {
     return totalFatGram;
   };
 
-
   const addNutritionItem = () => {
     if (
       newItem.name &&
@@ -140,7 +141,6 @@ const NutritionMeter = () => {
         carbs: "",
         fat: "",
       });
-      
 
       setInputError(false);
     } else {
@@ -150,7 +150,6 @@ const NutritionMeter = () => {
 
   const removeAllItems = () => {
     setNutritionItems([]);
-    
   };
 
   const editItemFunction = (item) => {
@@ -177,7 +176,6 @@ const NutritionMeter = () => {
       });
       setEditItem(null);
       setInputError(false);
-      
     } else {
       setInputError(true);
     }
@@ -282,9 +280,18 @@ const NutritionMeter = () => {
                     </div>
                     <div className="meal-bottom-section">
                       <ul className="meal-nutrients">
-                        <li>Protein: {item.protein * item.quantity}g</li>
-                        <li>Carbs: {item.carbs * item.quantity}g</li>
-                        <li>Fat: {item.fat * item.quantity}g</li>
+                        <li>
+                          <FontAwesomeIcon icon={faDna} className="icon-warning" />
+                          Protein: {item.protein * item.quantity}g
+                        </li>
+                        <li>
+                          <FontAwesomeIcon icon={faDroplet} className="icon-warning" />
+                          Carbs: {item.carbs * item.quantity}g
+                          </li>
+                        <li>
+                        <FontAwesomeIcon icon={faWheatAwn} className="icon-warning" />
+                          Fat: {item.fat * item.quantity}g
+                          </li>
                         {/* <li className="meal-buttons">
                         <button className="meal-btn" onClick={() => updateItemQuantity(item.id, 1)}>
                           <FontAwesomeIcon icon={faPlus} />
