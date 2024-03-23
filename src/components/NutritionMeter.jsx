@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { CircularProgressbarWithChildren, buildStyles } from "react-circular-progressbar";
+import "react-circular-progressbar/dist/styles.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faEdit,
@@ -12,8 +14,9 @@ import {
   faDroplet,
 } from "@fortawesome/free-solid-svg-icons";
 import "./NutritionMeter.css";
+import Modal from "./modal/Modal";
 
-const NutritionMeter = ({selectedDay}) => {
+const NutritionMeter = ({ selectedDay }) => {
   const defaultItemsDisplayed = [
     {
       id: 1,
@@ -93,9 +96,10 @@ const NutritionMeter = ({selectedDay}) => {
 
   const caloriesProgress = () => {
     let totalCaloriesPercentage = ((totalCalories / calorieGoal) * 100).toFixed(0);
+    return totalCaloriesPercentage;
 
-    const root = document.documentElement;
-    root.style.setProperty("--progress-value", totalCaloriesPercentage);
+    // const root = document.documentElement;
+    // root.style.setProperty("--progress-value", totalCaloriesPercentage);
   };
 
   const calculateTotalCarb = () => {
@@ -215,6 +219,7 @@ const NutritionMeter = ({selectedDay}) => {
     return nutritionItems.reduce((total, item) => total + parseFloat(item.fat) * item.quantity, 0);
   };
 
+  const percentage = 20;
 
   return (
     <div className="wrapper">
@@ -229,12 +234,27 @@ const NutritionMeter = ({selectedDay}) => {
         <div className="sides">
           <div className="left">
             <div className="nutrients-total">
-              <div className="calorie-goal">
+              <div className="calorie-goal" style={{ width: 180, height: 180 }}>
+                <CircularProgressbarWithChildren
+                  value={caloriesProgress()}
+                  strokeWidth={6}
+                  styles={buildStyles({
+                    textSize: "14px",
+                    pathColor: `#646cff`,
+                    textColor: "#131413",
+                    trailColor: "#eceaea",
+                  })}
+                >
+                  <span className="bold-text">{caloriesLeft()}</span>
+                  <span className="regular-text">CALS LEFT</span>
+                </CircularProgressbarWithChildren>
+              </div>
+              {/* <div className="calorie-goal">
                 <div className="progress-text">
                   <span className="bold-text">{caloriesLeft()}</span>
                   <span className="regular-text">CALS LEFT</span>
                 </div>
-              </div>
+              </div> */}
               <div className="calorie-summary">
                 <p>Calories Consumed: {totalCalories}</p>
                 <p>
@@ -288,11 +308,11 @@ const NutritionMeter = ({selectedDay}) => {
                         <li>
                           <FontAwesomeIcon icon={faDroplet} className="icon-warning" />
                           Carbs: {item.carbs * item.quantity}g
-                          </li>
+                        </li>
                         <li>
-                        <FontAwesomeIcon icon={faWheatAwn} className="icon-warning" />
+                          <FontAwesomeIcon icon={faWheatAwn} className="icon-warning" />
                           Fat: {item.fat * item.quantity}g
-                          </li>
+                        </li>
                         {/* <li className="meal-buttons">
                         <button className="meal-btn" onClick={() => updateItemQuantity(item.id, 1)}>
                           <FontAwesomeIcon icon={faPlus} />
@@ -320,75 +340,80 @@ const NutritionMeter = ({selectedDay}) => {
                 </div>
               ))}
             </div>
-            <div className="form-container">
-              <div className="form-inputs">
-                <div>
-                  <input
-                    type="text"
-                    placeholder="Item Name"
-                    className={`item${inputError && !newItem.name ? "input-error" : ""}`}
-                    style={inputError && !newItem.name ? inputErrorStyle : {}}
-                    value={newItem.name}
-                    onChange={(e) => setNewItem({ ...newItem, name: e.target.value })}
-                  />
+            <button>
+              Add
+            </button>
+            <Modal>
+              <div className="form-container">
+                <div className="form-inputs">
+                  <div>
+                    <input
+                      type="text"
+                      placeholder="Item Name"
+                      className={`item${inputError && !newItem.name ? "input-error" : ""}`}
+                      style={inputError && !newItem.name ? inputErrorStyle : {}}
+                      value={newItem.name}
+                      onChange={(e) => setNewItem({ ...newItem, name: e.target.value })}
+                    />
+                  </div>
+                  <div>
+                    <input
+                      type="number"
+                      placeholder="Calories"
+                      className={`item ${inputError && newItem.calories < 0 ? "input-error" : ""}`}
+                      style={inputError && newItem.calories < 0 ? inputErrorStyle : {}}
+                      value={newItem.calories}
+                      onChange={(e) => setNewItem({ ...newItem, calories: e.target.value })}
+                    />
+                  </div>
+                  <div>
+                    <input
+                      type="number"
+                      placeholder="Protein (g)"
+                      className={`item ${inputError && newItem.protein < 0 ? "input-error" : ""}`}
+                      style={inputError && newItem.protein < 0 ? inputErrorStyle : {}}
+                      value={newItem.protein}
+                      onChange={(e) => setNewItem({ ...newItem, protein: e.target.value })}
+                    />
+                  </div>
+                  <div>
+                    <input
+                      type="number"
+                      placeholder="Carbs (g)"
+                      className={`item ${inputError && newItem.carbs < 0 ? "input-error" : ""}`}
+                      style={inputError && newItem.carbs < 0 ? inputErrorStyle : {}}
+                      value={newItem.carbs}
+                      onChange={(e) => setNewItem({ ...newItem, carbs: e.target.value })}
+                    />
+                  </div>
+                  <div>
+                    <input
+                      type="number"
+                      placeholder="Fat (g)"
+                      className={`item ${inputError && newItem.fat < 0 ? "input-error" : ""}`}
+                      style={inputError && newItem.fat < 0 ? inputErrorStyle : {}}
+                      value={newItem.fat}
+                      onChange={(e) => setNewItem({ ...newItem, fat: e.target.value })}
+                    />
+                  </div>
+                  <div className="col-span-2 sm:col-span-1"></div>
                 </div>
-                <div>
-                  <input
-                    type="number"
-                    placeholder="Calories"
-                    className={`item ${inputError && newItem.calories < 0 ? "input-error" : ""}`}
-                    style={inputError && newItem.calories < 0 ? inputErrorStyle : {}}
-                    value={newItem.calories}
-                    onChange={(e) => setNewItem({ ...newItem, calories: e.target.value })}
-                  />
-                </div>
-                <div>
-                  <input
-                    type="number"
-                    placeholder="Protein (g)"
-                    className={`item ${inputError && newItem.protein < 0 ? "input-error" : ""}`}
-                    style={inputError && newItem.protein < 0 ? inputErrorStyle : {}}
-                    value={newItem.protein}
-                    onChange={(e) => setNewItem({ ...newItem, protein: e.target.value })}
-                  />
-                </div>
-                <div>
-                  <input
-                    type="number"
-                    placeholder="Carbs (g)"
-                    className={`item ${inputError && newItem.carbs < 0 ? "input-error" : ""}`}
-                    style={inputError && newItem.carbs < 0 ? inputErrorStyle : {}}
-                    value={newItem.carbs}
-                    onChange={(e) => setNewItem({ ...newItem, carbs: e.target.value })}
-                  />
-                </div>
-                <div>
-                  <input
-                    type="number"
-                    placeholder="Fat (g)"
-                    className={`item ${inputError && newItem.fat < 0 ? "input-error" : ""}`}
-                    style={inputError && newItem.fat < 0 ? inputErrorStyle : {}}
-                    value={newItem.fat}
-                    onChange={(e) => setNewItem({ ...newItem, fat: e.target.value })}
-                  />
-                </div>
-                <div className="col-span-2 sm:col-span-1"></div>
-              </div>
-              <div className="form-buttons">
-                {editItem ? (
-                  <button className="btn" onClick={updateItemFunction}>
-                    Update Item
+                <div className="form-buttons">
+                  {editItem ? (
+                    <button className="btn" onClick={updateItemFunction}>
+                      Update Item
+                    </button>
+                  ) : (
+                    <button className="btn" onClick={addNutritionItem}>
+                      Add Item
+                    </button>
+                  )}
+                  <button className="btn" onClick={removeAllItems}>
+                    Clear All
                   </button>
-                ) : (
-                  <button className="btn" onClick={addNutritionItem}>
-                    Add Item
-                  </button>
-                )}
-                <button className="btn" onClick={removeAllItems}>
-                  Clear All
-                </button>
+                </div>
               </div>
-            </div>
+            </Modal>
           </div>
         </div>
       </div>

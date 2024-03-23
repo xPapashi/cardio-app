@@ -1,26 +1,6 @@
 import React, {useState} from "react";
 import "./DaysOfWeek.css";
 
-// function DaysOfWeek() {
-//   return (
-//     <>
-//       <div className="title-container">
-//         <div className="dow-title">DAYS</div>
-//       </div>
-//       <div className="dow-container">
-//         <div className="box">
-//           <button className="day">Mon</button>
-//           <button className="day">Tue</button>
-//           <button className="day">Wed</button>
-//           <button className="day">Thu</button>
-//           <button className="day">Fri</button>
-//           <button className="day">Sat</button>
-//           <button className="day">Sun</button>
-//         </div>
-//       </div>
-//     </>
-//   );
-// }
 function DaysOfWeek({ onSelectDay }) {
   const [currentDate, setCurrentDate] = useState(new Date());
 
@@ -30,9 +10,10 @@ function DaysOfWeek({ onSelectDay }) {
     setCurrentDate(newDate);
   };
 
-  const formatDate = (date) => {
+  const formatDate = (date, fullday = false) => {
     const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-    const dayName = days[date.getDay()];
+    const fullDays = ["SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY"];
+    const dayName = fullday ? fullDays[date.getDay()] : days[date.getDay()];
     const dayOfMonth = date.getDate();
     return `${dayName} ${dayOfMonth}`;
   };
@@ -54,7 +35,7 @@ function DaysOfWeek({ onSelectDay }) {
             <button
               className="day"
               key={index}
-              onClick={() => onSelectDay(formatDate(new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate() + index)))}
+              onClick={() => onSelectDay(formatDate(new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate() + index), true))}
             >
               {formatDate(new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate() + index))}
             </button>
