@@ -15,6 +15,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import "./NutritionMeter.css";
 import Modal from "./modal/Modal";
+import MealsContainer from "./MealsContainer";
 
 const NutritionMeter = ({ selectedDay }) => {
   const defaultItemsDisplayed = [
@@ -74,6 +75,15 @@ const NutritionMeter = ({ selectedDay }) => {
 
   const handleClose = () => {
     setIsOpen(false);
+    setNewItem({
+      name: "",
+      calories: "",
+      protein: "",
+      carbs: "",
+      fat: "",
+    });
+    setEditItem(null);
+    setInputError(false);
   };
 
   useEffect(() => {
@@ -152,6 +162,7 @@ const NutritionMeter = ({ selectedDay }) => {
       });
 
       setInputError(false);
+      setIsOpen(false);
     } else {
       setInputError(true);
     }
@@ -162,6 +173,7 @@ const NutritionMeter = ({ selectedDay }) => {
   };
 
   const editItemFunction = (item) => {
+    setIsOpen(true);
     setEditItem(item.id);
     setNewItem({ ...item });
   };
@@ -185,6 +197,7 @@ const NutritionMeter = ({ selectedDay }) => {
       });
       setEditItem(null);
       setInputError(false);
+      setIsOpen(false);
     } else {
       setInputError(true);
     }
@@ -287,7 +300,13 @@ const NutritionMeter = ({ selectedDay }) => {
             </div>
           </div>
           <div className="right">
-            <div className="meals-container">
+            <MealsContainer
+              nutritionItems={nutritionItems}
+              editItemFunction={editItemFunction}
+              deleteItemFunction={deleteItemFunction}
+              updateItemQuantity={updateItemQuantity}
+            />
+            {/* <div className="meals-container">
               <div className="foods-title">FOODS</div>
               {nutritionItems.map((item) => (
                 <div key={item.id} className="meal">
@@ -310,7 +329,7 @@ const NutritionMeter = ({ selectedDay }) => {
                           <FontAwesomeIcon icon={faDroplet} className="icon-warning" />
                           Fat: {item.fat * item.quantity}g
                         </li>
-                        {/* <li className="meal-buttons">
+                        <li className="meal-buttons">
                         <button className="meal-btn" onClick={() => updateItemQuantity(item.id, 1)}>
                           <FontAwesomeIcon icon={faPlus} />
                         </button>
@@ -321,7 +340,7 @@ const NutritionMeter = ({ selectedDay }) => {
                         >
                           <FontAwesomeIcon icon={faMinus} />
                         </button>
-                      </li> */}
+                      </li>
                       </ul>
                     </div>
                   </div>
@@ -335,7 +354,7 @@ const NutritionMeter = ({ selectedDay }) => {
                   </div>
                 </div>
               ))}
-            </div>
+            </div> */}
             {isOpen && (
               <Modal handleClose={handleClose}>
                 <div className="form-container">
