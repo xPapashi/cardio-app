@@ -70,6 +70,11 @@ const NutritionMeter = ({ selectedDay }) => {
   const [showWarning, setShowWarning] = useState(false);
   const [inputError, setInputError] = useState(false);
   const [calorieGoal, setCalorieGoal] = useState(2500);
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleClose = () => {
+    setIsOpen(false);
+  };
 
   useEffect(() => {
     const calculateTotalCalories = nutritionItems.reduce(
@@ -219,8 +224,6 @@ const NutritionMeter = ({ selectedDay }) => {
     return nutritionItems.reduce((total, item) => total + parseFloat(item.fat) * item.quantity, 0);
   };
 
-  const percentage = 20;
-
   return (
     <div className="wrapper">
       <div className="container">
@@ -249,12 +252,6 @@ const NutritionMeter = ({ selectedDay }) => {
                   <span className="regular-text">CALS LEFT</span>
                 </CircularProgressbarWithChildren>
               </div>
-              {/* <div className="calorie-goal">
-                <div className="progress-text">
-                  <span className="bold-text">{caloriesLeft()}</span>
-                  <span className="regular-text">CALS LEFT</span>
-                </div>
-              </div> */}
               <div className="calorie-summary">
                 <p>Calories Consumed: {totalCalories}</p>
                 <p>
@@ -306,11 +303,11 @@ const NutritionMeter = ({ selectedDay }) => {
                           Protein: {item.protein * item.quantity}g
                         </li>
                         <li>
-                          <FontAwesomeIcon icon={faDroplet} className="icon-warning" />
+                          <FontAwesomeIcon icon={faWheatAwn} className="icon-warning" />
                           Carbs: {item.carbs * item.quantity}g
                         </li>
                         <li>
-                          <FontAwesomeIcon icon={faWheatAwn} className="icon-warning" />
+                          <FontAwesomeIcon icon={faDroplet} className="icon-warning" />
                           Fat: {item.fat * item.quantity}g
                         </li>
                         {/* <li className="meal-buttons">
@@ -328,7 +325,6 @@ const NutritionMeter = ({ selectedDay }) => {
                       </ul>
                     </div>
                   </div>
-
                   <div className="meal-edit-buttons">
                     <button className=".meal-edit-btn" onClick={() => editItemFunction(item)}>
                       <FontAwesomeIcon icon={faEdit} />
@@ -340,82 +336,153 @@ const NutritionMeter = ({ selectedDay }) => {
                 </div>
               ))}
             </div>
-            <button>
-              Add
-            </button>
-            <Modal>
-              <div className="form-container">
-                <div className="form-inputs">
-                  <div>
-                    <input
-                      type="text"
-                      placeholder="Item Name"
-                      className={`item${inputError && !newItem.name ? "input-error" : ""}`}
-                      style={inputError && !newItem.name ? inputErrorStyle : {}}
-                      value={newItem.name}
-                      onChange={(e) => setNewItem({ ...newItem, name: e.target.value })}
-                    />
+            {isOpen && (
+              <Modal handleClose={handleClose}>
+                <div className="form-container">
+                  <div className="form-inputs">
+                    <div>
+                      <input
+                        type="text"
+                        placeholder="Item Name"
+                        className={`item${inputError && !newItem.name ? "input-error" : ""}`}
+                        style={inputError && !newItem.name ? inputErrorStyle : {}}
+                        value={newItem.name}
+                        onChange={(e) => setNewItem({ ...newItem, name: e.target.value })}
+                      />
+                    </div>
+                    <div>
+                      <input
+                        type="number"
+                        placeholder="Calories"
+                        className={`item ${
+                          inputError && newItem.calories < 0 ? "input-error" : ""
+                        }`}
+                        style={inputError && newItem.calories < 0 ? inputErrorStyle : {}}
+                        value={newItem.calories}
+                        onChange={(e) => setNewItem({ ...newItem, calories: e.target.value })}
+                      />
+                    </div>
+                    <div>
+                      <input
+                        type="number"
+                        placeholder="Protein (g)"
+                        className={`item ${inputError && newItem.protein < 0 ? "input-error" : ""}`}
+                        style={inputError && newItem.protein < 0 ? inputErrorStyle : {}}
+                        value={newItem.protein}
+                        onChange={(e) => setNewItem({ ...newItem, protein: e.target.value })}
+                      />
+                    </div>
+                    <div>
+                      <input
+                        type="number"
+                        placeholder="Carbs (g)"
+                        className={`item ${inputError && newItem.carbs < 0 ? "input-error" : ""}`}
+                        style={inputError && newItem.carbs < 0 ? inputErrorStyle : {}}
+                        value={newItem.carbs}
+                        onChange={(e) => setNewItem({ ...newItem, carbs: e.target.value })}
+                      />
+                    </div>
+                    <div>
+                      <input
+                        type="number"
+                        placeholder="Fat (g)"
+                        className={`item ${inputError && newItem.fat < 0 ? "input-error" : ""}`}
+                        style={inputError && newItem.fat < 0 ? inputErrorStyle : {}}
+                        value={newItem.fat}
+                        onChange={(e) => setNewItem({ ...newItem, fat: e.target.value })}
+                      />
+                    </div>
+                    <div className="col-span-2 sm:col-span-1"></div>
                   </div>
-                  <div>
-                    <input
-                      type="number"
-                      placeholder="Calories"
-                      className={`item ${inputError && newItem.calories < 0 ? "input-error" : ""}`}
-                      style={inputError && newItem.calories < 0 ? inputErrorStyle : {}}
-                      value={newItem.calories}
-                      onChange={(e) => setNewItem({ ...newItem, calories: e.target.value })}
-                    />
-                  </div>
-                  <div>
-                    <input
-                      type="number"
-                      placeholder="Protein (g)"
-                      className={`item ${inputError && newItem.protein < 0 ? "input-error" : ""}`}
-                      style={inputError && newItem.protein < 0 ? inputErrorStyle : {}}
-                      value={newItem.protein}
-                      onChange={(e) => setNewItem({ ...newItem, protein: e.target.value })}
-                    />
-                  </div>
-                  <div>
-                    <input
-                      type="number"
-                      placeholder="Carbs (g)"
-                      className={`item ${inputError && newItem.carbs < 0 ? "input-error" : ""}`}
-                      style={inputError && newItem.carbs < 0 ? inputErrorStyle : {}}
-                      value={newItem.carbs}
-                      onChange={(e) => setNewItem({ ...newItem, carbs: e.target.value })}
-                    />
-                  </div>
-                  <div>
-                    <input
-                      type="number"
-                      placeholder="Fat (g)"
-                      className={`item ${inputError && newItem.fat < 0 ? "input-error" : ""}`}
-                      style={inputError && newItem.fat < 0 ? inputErrorStyle : {}}
-                      value={newItem.fat}
-                      onChange={(e) => setNewItem({ ...newItem, fat: e.target.value })}
-                    />
-                  </div>
-                  <div className="col-span-2 sm:col-span-1"></div>
-                </div>
-                <div className="form-buttons">
-                  {editItem ? (
-                    <button className="btn" onClick={updateItemFunction}>
-                      Update Item
+                  <div className="form-buttons">
+                    {editItem ? (
+                      <button className="btn" onClick={updateItemFunction}>
+                        Update Item
+                      </button>
+                    ) : (
+                      <button className="btn" onClick={addNutritionItem}>
+                        Add Item
+                      </button>
+                    )}
+                    <button className="btn" onClick={removeAllItems}>
+                      Clear All
                     </button>
-                  ) : (
-                    <button className="btn" onClick={addNutritionItem}>
-                      Add Item
-                    </button>
-                  )}
-                  <button className="btn" onClick={removeAllItems}>
-                    Clear All
-                  </button>
+                  </div>
                 </div>
+              </Modal>
+            )}
+            {/* <div className="form-container">
+              <div className="form-inputs">
+                <div>
+                  <input
+                    type="text"
+                    placeholder="Item Name"
+                    className={`item${inputError && !newItem.name ? "input-error" : ""}`}
+                    style={inputError && !newItem.name ? inputErrorStyle : {}}
+                    value={newItem.name}
+                    onChange={(e) => setNewItem({ ...newItem, name: e.target.value })}
+                  />
+                </div>
+                <div>
+                  <input
+                    type="number"
+                    placeholder="Calories"
+                    className={`item ${inputError && newItem.calories < 0 ? "input-error" : ""}`}
+                    style={inputError && newItem.calories < 0 ? inputErrorStyle : {}}
+                    value={newItem.calories}
+                    onChange={(e) => setNewItem({ ...newItem, calories: e.target.value })}
+                  />
+                </div>
+                <div>
+                  <input
+                    type="number"
+                    placeholder="Protein (g)"
+                    className={`item ${inputError && newItem.protein < 0 ? "input-error" : ""}`}
+                    style={inputError && newItem.protein < 0 ? inputErrorStyle : {}}
+                    value={newItem.protein}
+                    onChange={(e) => setNewItem({ ...newItem, protein: e.target.value })}
+                  />
+                </div>
+                <div>
+                  <input
+                    type="number"
+                    placeholder="Carbs (g)"
+                    className={`item ${inputError && newItem.carbs < 0 ? "input-error" : ""}`}
+                    style={inputError && newItem.carbs < 0 ? inputErrorStyle : {}}
+                    value={newItem.carbs}
+                    onChange={(e) => setNewItem({ ...newItem, carbs: e.target.value })}
+                  />
+                </div>
+                <div>
+                  <input
+                    type="number"
+                    placeholder="Fat (g)"
+                    className={`item ${inputError && newItem.fat < 0 ? "input-error" : ""}`}
+                    style={inputError && newItem.fat < 0 ? inputErrorStyle : {}}
+                    value={newItem.fat}
+                    onChange={(e) => setNewItem({ ...newItem, fat: e.target.value })}
+                  />
+                </div>
+                <div className="col-span-2 sm:col-span-1"></div>
               </div>
-            </Modal>
+              <div className="form-buttons">
+                {editItem ? (
+                  <button className="btn" onClick={updateItemFunction}>
+                    Update Item
+                  </button>
+                ) : (
+                  <button className="btn" onClick={addNutritionItem}>
+                    Add Item
+                  </button>
+                )}
+                <button className="btn" onClick={removeAllItems}>
+                  Clear All
+                </button>
+              </div>
+            </div> */}
           </div>
         </div>
+        <button onClick={() => setIsOpen(true)}>Add Food</button>
       </div>
     </div>
   );
