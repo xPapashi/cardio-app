@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import MealList from "../MealList";
+import MealList from "../components/MealList"
 import "./RecipeGenerator.css";
 
 export default function RecipeGenerator() {

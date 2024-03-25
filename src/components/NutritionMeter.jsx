@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { CircularProgressbarWithChildren, buildStyles } from "react-circular-progressbar";
+import "react-circular-progressbar/dist/styles.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faEdit,
@@ -12,8 +14,10 @@ import {
   faDroplet,
 } from "@fortawesome/free-solid-svg-icons";
 import "./NutritionMeter.css";
+import Modal from "./modal/Modal";
+import MealsContainer from "./MealsContainer";
 
-const NutritionMeter = ({selectedDay}) => {
+const NutritionMeter = ({ selectedDay }) => {
   const defaultItemsDisplayed = [
     {
       id: 1,
@@ -67,6 +71,20 @@ const NutritionMeter = ({selectedDay}) => {
   const [showWarning, setShowWarning] = useState(false);
   const [inputError, setInputError] = useState(false);
   const [calorieGoal, setCalorieGoal] = useState(2500);
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleClose = () => {
+    setIsOpen(false);
+    setNewItem({
+      name: "",
+      calories: "",
+      protein: "",
+      carbs: "",
+      fat: "",
+    });
+    setEditItem(null);
+    setInputError(false);
+  };
 
   useEffect(() => {
     const calculateTotalCalories = nutritionItems.reduce(
@@ -93,9 +111,10 @@ const NutritionMeter = ({selectedDay}) => {
 
   const caloriesProgress = () => {
     let totalCaloriesPercentage = ((totalCalories / calorieGoal) * 100).toFixed(0);
+    return totalCaloriesPercentage;
 
-    const root = document.documentElement;
-    root.style.setProperty("--progress-value", totalCaloriesPercentage);
+    // const root = document.documentElement;
+    // root.style.setProperty("--progress-value", totalCaloriesPercentage);
   };
 
   const calculateTotalCarb = () => {
@@ -143,6 +162,7 @@ const NutritionMeter = ({selectedDay}) => {
       });
 
       setInputError(false);
+      setIsOpen(false);
     } else {
       setInputError(true);
     }
@@ -153,6 +173,7 @@ const NutritionMeter = ({selectedDay}) => {
   };
 
   const editItemFunction = (item) => {
+    setIsOpen(true);
     setEditItem(item.id);
     setNewItem({ ...item });
   };
@@ -176,6 +197,7 @@ const NutritionMeter = ({selectedDay}) => {
       });
       setEditItem(null);
       setInputError(false);
+      setIsOpen(false);
     } else {
       setInputError(true);
     }
@@ -215,7 +237,6 @@ const NutritionMeter = ({selectedDay}) => {
     return nutritionItems.reduce((total, item) => total + parseFloat(item.fat) * item.quantity, 0);
   };
 
-
   return (
     <div className="wrapper">
       <div className="container">
@@ -229,11 +250,20 @@ const NutritionMeter = ({selectedDay}) => {
         <div className="sides">
           <div className="left">
             <div className="nutrients-total">
-              <div className="calorie-goal">
-                <div className="progress-text">
+              <div className="calorie-goal" style={{ width: 180, height: 180 }}>
+                <CircularProgressbarWithChildren
+                  value={caloriesProgress()}
+                  strokeWidth={6}
+                  styles={buildStyles({
+                    textSize: "14px",
+                    pathColor: `#646cff`,
+                    textColor: "#131413",
+                    trailColor: "#eceaea",
+                  })}
+                >
                   <span className="bold-text">{caloriesLeft()}</span>
                   <span className="regular-text">CALS LEFT</span>
-                </div>
+                </CircularProgressbarWithChildren>
               </div>
               <div className="calorie-summary">
                 <p>Calories Consumed: {totalCalories}</p>
@@ -270,7 +300,13 @@ const NutritionMeter = ({selectedDay}) => {
             </div>
           </div>
           <div className="right">
-            <div className="meals-container">
+            <MealsContainer
+              nutritionItems={nutritionItems}
+              editItemFunction={editItemFunction}
+              deleteItemFunction={deleteItemFunction}
+              updateItemQuantity={updateItemQuantity}
+            />
+            {/* <div className="meals-container">
               <div className="foods-title">FOODS</div>
               {nutritionItems.map((item) => (
                 <div key={item.id} className="meal">
@@ -286,14 +322,14 @@ const NutritionMeter = ({selectedDay}) => {
                           Protein: {item.protein * item.quantity}g
                         </li>
                         <li>
-                          <FontAwesomeIcon icon={faDroplet} className="icon-warning" />
+                          <FontAwesomeIcon icon={faWheatAwn} className="icon-warning" />
                           Carbs: {item.carbs * item.quantity}g
-                          </li>
+                        </li>
                         <li>
-                        <FontAwesomeIcon icon={faWheatAwn} className="icon-warning" />
+                          <FontAwesomeIcon icon={faDroplet} className="icon-warning" />
                           Fat: {item.fat * item.quantity}g
-                          </li>
-                        {/* <li className="meal-buttons">
+                        </li>
+                        <li className="meal-buttons">
                         <button className="meal-btn" onClick={() => updateItemQuantity(item.id, 1)}>
                           <FontAwesomeIcon icon={faPlus} />
                         </button>
@@ -304,11 +340,10 @@ const NutritionMeter = ({selectedDay}) => {
                         >
                           <FontAwesomeIcon icon={faMinus} />
                         </button>
-                      </li> */}
+                      </li>
                       </ul>
                     </div>
                   </div>
-
                   <div className="meal-edit-buttons">
                     <button className=".meal-edit-btn" onClick={() => editItemFunction(item)}>
                       <FontAwesomeIcon icon={faEdit} />
@@ -319,8 +354,83 @@ const NutritionMeter = ({selectedDay}) => {
                   </div>
                 </div>
               ))}
-            </div>
-            <div className="form-container">
+            </div> */}
+            {isOpen && (
+              <Modal handleClose={handleClose}>
+                <div className="form-container">
+                  <div className="form-inputs">
+                    <div>
+                      <input
+                        type="text"
+                        placeholder="Item Name"
+                        className={`item${inputError && !newItem.name ? "input-error" : ""}`}
+                        style={inputError && !newItem.name ? inputErrorStyle : {}}
+                        value={newItem.name}
+                        onChange={(e) => setNewItem({ ...newItem, name: e.target.value })}
+                      />
+                    </div>
+                    <div>
+                      <input
+                        type="number"
+                        placeholder="Calories"
+                        className={`item ${
+                          inputError && newItem.calories < 0 ? "input-error" : ""
+                        }`}
+                        style={inputError && newItem.calories < 0 ? inputErrorStyle : {}}
+                        value={newItem.calories}
+                        onChange={(e) => setNewItem({ ...newItem, calories: e.target.value })}
+                      />
+                    </div>
+                    <div>
+                      <input
+                        type="number"
+                        placeholder="Protein (g)"
+                        className={`item ${inputError && newItem.protein < 0 ? "input-error" : ""}`}
+                        style={inputError && newItem.protein < 0 ? inputErrorStyle : {}}
+                        value={newItem.protein}
+                        onChange={(e) => setNewItem({ ...newItem, protein: e.target.value })}
+                      />
+                    </div>
+                    <div>
+                      <input
+                        type="number"
+                        placeholder="Carbs (g)"
+                        className={`item ${inputError && newItem.carbs < 0 ? "input-error" : ""}`}
+                        style={inputError && newItem.carbs < 0 ? inputErrorStyle : {}}
+                        value={newItem.carbs}
+                        onChange={(e) => setNewItem({ ...newItem, carbs: e.target.value })}
+                      />
+                    </div>
+                    <div>
+                      <input
+                        type="number"
+                        placeholder="Fat (g)"
+                        className={`item ${inputError && newItem.fat < 0 ? "input-error" : ""}`}
+                        style={inputError && newItem.fat < 0 ? inputErrorStyle : {}}
+                        value={newItem.fat}
+                        onChange={(e) => setNewItem({ ...newItem, fat: e.target.value })}
+                      />
+                    </div>
+                    <div className="col-span-2 sm:col-span-1"></div>
+                  </div>
+                  <div className="form-buttons">
+                    {editItem ? (
+                      <button className="btn" onClick={updateItemFunction}>
+                        Update Item
+                      </button>
+                    ) : (
+                      <button className="btn" onClick={addNutritionItem}>
+                        Add Item
+                      </button>
+                    )}
+                    <button className="btn" onClick={removeAllItems}>
+                      Clear All
+                    </button>
+                  </div>
+                </div>
+              </Modal>
+            )}
+            {/* <div className="form-container">
               <div className="form-inputs">
                 <div>
                   <input
@@ -388,9 +498,10 @@ const NutritionMeter = ({selectedDay}) => {
                   Clear All
                 </button>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
+        <button onClick={() => setIsOpen(true)}>Add Food</button>
       </div>
     </div>
   );

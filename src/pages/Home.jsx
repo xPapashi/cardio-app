@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import NutritionMeter from "../NutritionMeter";
-import DaysOfWeek from "../DaysOfWeek";
+import NutritionMeter from "../components/NutritionMeter";
+import DaysOfWeek from "../components/DaysOfWeek";
 
 export default function Home() {
   const [selectedDay, setSelectedDay] = useState(getCurrentDay());

@@ -10,7 +10,7 @@
 }
 .container {
   margin: auto;
-  padding: 10px 1rem 1rem 1rem;
+  padding: 10px 3rem 1rem 3rem;
 }
 
 .Title {
@@ -49,7 +49,9 @@
   border-radius: 6px;
 }
 
-.calorie-goal {
+
+
+/* .calorie-goal {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -60,14 +62,15 @@
   background: radial-gradient(closest-side, white 87%, transparent 88% 100%),
     conic-gradient(#646cff calc(var(--progress-value) * 1%), #eceaea 0);
   animation: --progress-value 2s 1 forwards;
-}
+} */
 
+/* 
 .progress-text {
   position: absolute;
   display: flex;
   flex-direction: column;
   align-items: center;
-}
+} */
 
 .bold-text {
   font-weight: 700;
