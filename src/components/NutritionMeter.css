@@ -323,3 +323,7 @@
   background-color: white;
   color: #646cff;
 }
+
+.btn-addFood {
+  padding: 0.5rem 5rem;
+}
