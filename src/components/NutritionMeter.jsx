@@ -434,7 +434,7 @@ const NutritionMeter = ({ selectedDay }) => {
             )}
           </div>
         </div>
-        <button onClick={() => setIsOpen(true)}>Add Food</button>
+        <button className="btn-addFood" onClick={() => setIsOpen(true)}>Add Food</button>
       </div>
     </div>
   );
