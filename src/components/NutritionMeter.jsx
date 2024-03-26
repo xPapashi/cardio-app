@@ -82,6 +82,7 @@ const NutritionMeter = ({ selectedDay }) => {
       protein: "",
       carbs: "",
       fat: "",
+      quantity: 1,
     });
     setEditItem(null);
     setInputError(false);
@@ -111,8 +112,7 @@ const NutritionMeter = ({ selectedDay }) => {
   };
 
   const caloriesProgress = () => {
-    let totalCaloriesPercentage = ((totalCalories / calorieGoal) * 100).toFixed(0);
-    return totalCaloriesPercentage;
+    return ((totalCalories / calorieGoal) * 100);
 
     // const root = document.documentElement;
     // root.style.setProperty("--progress-value", totalCaloriesPercentage);
@@ -153,14 +153,17 @@ const NutritionMeter = ({ selectedDay }) => {
       newItem.carbs >= 0 &&
       newItem.fat >= 0
     ) {
-      setNutritionItems([...nutritionItems, { ...newItem, id: Date.now(), quantity: 1 }]);
-      setNewItem({
+      setNutritionItems([...nutritionItems, { ...newItem, id: Date.now() }]);
+      // setNutritionItems([...nutritionItems, { ...newItem, id: Date.now(), quantity: 1 }]);
+      setNewItem((prevItem) => ({
+        ...prevItem,
         name: "",
         calories: "",
         protein: "",
         carbs: "",
         fat: "",
-      });
+        quantity: 1, // Reset quantity to 1
+      }));
 
       setInputError(false);
       setIsOpen(false);
