@@ -30,7 +30,7 @@
   flex-direction: column;
 }
 
-input {
+.controls input {
   padding: 0.5rem;
   margin-bottom: 1rem;
   text-align: center;

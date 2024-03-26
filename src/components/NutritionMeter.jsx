@@ -73,7 +73,8 @@ const NutritionMeter = ({ selectedDay }) => {
   const [calorieGoal, setCalorieGoal] = useState(2500);
   const [isOpen, setIsOpen] = useState(false);
 
-  const handleClose = () => {
+  const handleClose = (e) => {
+    e.preventDefault();
     setIsOpen(false);
     setNewItem({
       name: "",
@@ -130,7 +131,7 @@ const NutritionMeter = ({ selectedDay }) => {
     //2500 calories multiply by 22.5% average daily protein intake
     //562.5 divide by 4 to get protein grams
     const proteinCalories = calorieGoal * 0.225;
-    const totalProtienGram = (proteinCalories / 4).toFixed(0);
+    const totalProtienGram = (proteinCalories / 4).toFixed(1);
 
     return totalProtienGram;
   };
@@ -169,6 +170,7 @@ const NutritionMeter = ({ selectedDay }) => {
   };
 
   const removeAllItems = () => {
+    setIsOpen(false);
     setNutritionItems([]);
   };
 
@@ -306,60 +308,18 @@ const NutritionMeter = ({ selectedDay }) => {
               deleteItemFunction={deleteItemFunction}
               updateItemQuantity={updateItemQuantity}
             />
-            {/* <div className="meals-container">
-              <div className="foods-title">FOODS</div>
-              {nutritionItems.map((item) => (
-                <div key={item.id} className="meal">
-                  <div className="meal-info">
-                    <div className="meal-top-section">
-                      <h2 className="meal-title">{item.name} - </h2>
-                      <li>Calories: {item.calories * item.quantity}</li>
-                    </div>
-                    <div className="meal-bottom-section">
-                      <ul className="meal-nutrients">
-                        <li>
-                          <FontAwesomeIcon icon={faDna} className="icon-warning" />
-                          Protein: {item.protein * item.quantity}g
-                        </li>
-                        <li>
-                          <FontAwesomeIcon icon={faWheatAwn} className="icon-warning" />
-                          Carbs: {item.carbs * item.quantity}g
-                        </li>
-                        <li>
-                          <FontAwesomeIcon icon={faDroplet} className="icon-warning" />
-                          Fat: {item.fat * item.quantity}g
-                        </li>
-                        <li className="meal-buttons">
-                        <button className="meal-btn" onClick={() => updateItemQuantity(item.id, 1)}>
-                          <FontAwesomeIcon icon={faPlus} />
-                        </button>
-                        <span className="meal-quantity">{item.quantity}</span>
-                        <button
-                          className="meal-btn"
-                          onClick={() => updateItemQuantity(item.id, -1)}
-                        >
-                          <FontAwesomeIcon icon={faMinus} />
-                        </button>
-                      </li>
-                      </ul>
-                    </div>
-                  </div>
-                  <div className="meal-edit-buttons">
-                    <button className=".meal-edit-btn" onClick={() => editItemFunction(item)}>
-                      <FontAwesomeIcon icon={faEdit} />
-                    </button>
-                    <button className=".meal-edit-btn" onClick={() => deleteItemFunction(item.id)}>
-                      <FontAwesomeIcon icon={faTrashAlt} />
-                    </button>
-                  </div>
-                </div>
-              ))}
-            </div> */}
             {isOpen && (
               <Modal handleClose={handleClose}>
                 <div className="form-container">
-                  <div className="form-inputs">
-                    <div>
+                  <div className="form-title">
+                    <h2>Log Foods</h2>
+                    <button type="button" onClick={handleClose}>
+                      X
+                    </button>
+                  </div>
+                  <div className="food-name">
+                    <label htmlFor="item">Food Name</label>
+                    <div className="split">
                       <input
                         type="text"
                         placeholder="Item Name"
@@ -368,8 +328,36 @@ const NutritionMeter = ({ selectedDay }) => {
                         value={newItem.name}
                         onChange={(e) => setNewItem({ ...newItem, name: e.target.value })}
                       />
+                      <div className="quantityInfo">
+                        <button
+                          className="quantity-Add"
+                          onClick={() =>
+                            setNewItem((prevItem) => ({
+                              ...prevItem,
+                              quantity: prevItem.quantity + 1,
+                            }))
+                          }
+                        >
+                          <FontAwesomeIcon icon={faPlus} />
+                        </button>
+                        <span className="quantity-Num">{newItem.quantity}</span>
+                        <button
+                          className="quantity-Take"
+                          onClick={() =>
+                            setNewItem((prevItem) => ({
+                              ...prevItem,
+                              quantity: Math.max(prevItem.quantity - 1, 1),
+                            }))
+                          }
+                        >
+                          <FontAwesomeIcon icon={faMinus} />
+                        </button>
+                      </div>
                     </div>
+                  </div>
+                  <div className="form-inputs">
                     <div>
+                      <label htmlFor="item">Calories (kcal)</label>
                       <input
                         type="number"
                         placeholder="Calories"
@@ -382,6 +370,7 @@ const NutritionMeter = ({ selectedDay }) => {
                       />
                     </div>
                     <div>
+                      <label htmlFor="item">Protein (g)</label>
                       <input
                         type="number"
                         placeholder="Protein (g)"
@@ -392,6 +381,7 @@ const NutritionMeter = ({ selectedDay }) => {
                       />
                     </div>
                     <div>
+                      <label htmlFor="item">Carbohydrates (g)</label>
                       <input
                         type="number"
                         placeholder="Carbs (g)"
@@ -402,6 +392,7 @@ const NutritionMeter = ({ selectedDay }) => {
                       />
                     </div>
                     <div>
+                      <label htmlFor="item">Fats (g)</label>
                       <input
                         type="number"
                         placeholder="Fat (g)"
@@ -411,7 +402,6 @@ const NutritionMeter = ({ selectedDay }) => {
                         onChange={(e) => setNewItem({ ...newItem, fat: e.target.value })}
                       />
                     </div>
-                    <div className="col-span-2 sm:col-span-1"></div>
                   </div>
                   <div className="form-buttons">
                     {editItem ? (
@@ -430,75 +420,6 @@ const NutritionMeter = ({ selectedDay }) => {
                 </div>
               </Modal>
             )}
-            {/* <div className="form-container">
-              <div className="form-inputs">
-                <div>
-                  <input
-                    type="text"
-                    placeholder="Item Name"
-                    className={`item${inputError && !newItem.name ? "input-error" : ""}`}
-                    style={inputError && !newItem.name ? inputErrorStyle : {}}
-                    value={newItem.name}
-                    onChange={(e) => setNewItem({ ...newItem, name: e.target.value })}
-                  />
-                </div>
-                <div>
-                  <input
-                    type="number"
-                    placeholder="Calories"
-                    className={`item ${inputError && newItem.calories < 0 ? "input-error" : ""}`}
-                    style={inputError && newItem.calories < 0 ? inputErrorStyle : {}}
-                    value={newItem.calories}
-                    onChange={(e) => setNewItem({ ...newItem, calories: e.target.value })}
-                  />
-                </div>
-                <div>
-                  <input
-                    type="number"
-                    placeholder="Protein (g)"
-                    className={`item ${inputError && newItem.protein < 0 ? "input-error" : ""}`}
-                    style={inputError && newItem.protein < 0 ? inputErrorStyle : {}}
-                    value={newItem.protein}
-                    onChange={(e) => setNewItem({ ...newItem, protein: e.target.value })}
-                  />
-                </div>
-                <div>
-                  <input
-                    type="number"
-                    placeholder="Carbs (g)"
-                    className={`item ${inputError && newItem.carbs < 0 ? "input-error" : ""}`}
-                    style={inputError && newItem.carbs < 0 ? inputErrorStyle : {}}
-                    value={newItem.carbs}
-                    onChange={(e) => setNewItem({ ...newItem, carbs: e.target.value })}
-                  />
-                </div>
-                <div>
-                  <input
-                    type="number"
-                    placeholder="Fat (g)"
-                    className={`item ${inputError && newItem.fat < 0 ? "input-error" : ""}`}
-                    style={inputError && newItem.fat < 0 ? inputErrorStyle : {}}
-                    value={newItem.fat}
-                    onChange={(e) => setNewItem({ ...newItem, fat: e.target.value })}
-                  />
-                </div>
-                <div className="col-span-2 sm:col-span-1"></div>
-              </div>
-              <div className="form-buttons">
-                {editItem ? (
-                  <button className="btn" onClick={updateItemFunction}>
-                    Update Item
-                  </button>
-                ) : (
-                  <button className="btn" onClick={addNutritionItem}>
-                    Add Item
-                  </button>
-                )}
-                <button className="btn" onClick={removeAllItems}>
-                  Clear All
-                </button>
-              </div>
-            </div> */}
           </div>
         </div>
         <button onClick={() => setIsOpen(true)}>Add Food</button>

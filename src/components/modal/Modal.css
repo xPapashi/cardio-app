@@ -8,13 +8,14 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  height: 100vh;
 }
 
 .Modal {
   display: flex;
   justify-content: center;
   background-color: #fff;
-  padding: 4rem 2rem;
+  padding: 1rem 2rem;
   border-radius: 8px;
   margin: auto;
   box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px,
