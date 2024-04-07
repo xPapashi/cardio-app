@@ -1,6 +1,7 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrashAlt, faDna, faWheatAwn, faDroplet } from "@fortawesome/free-solid-svg-icons";
+import { roundTwoDecimalPlaces } from "./utils/Utils";
 
 const MealsContainer = ({ nutritionItems, editItemFunction, deleteItemFunction, updateItemQuantity }) => {
   return (
@@ -17,15 +18,15 @@ const MealsContainer = ({ nutritionItems, editItemFunction, deleteItemFunction, 
               <ul className="meal-nutrients">
                 <li>
                   <FontAwesomeIcon icon={faDna} className="icon-warning" />
-                  Protein: {item.protein * item.quantity}g
+                  Protein: {roundTwoDecimalPlaces(item.protein * item.quantity)}g
                 </li>
                 <li>
                   <FontAwesomeIcon icon={faWheatAwn} className="icon-warning" />
-                  Carbs: {item.carbs * item.quantity}g
+                  Carbs: {roundTwoDecimalPlaces(item.carbs * item.quantity)}g
                 </li>
                 <li>
                   <FontAwesomeIcon icon={faDroplet} className="icon-warning" />
-                  Fat: {item.fat * item.quantity}g
+                  Fat: {roundTwoDecimalPlaces(item.fat * item.quantity)}g
                 </li>
               </ul>
             </div>

@@ -16,6 +16,7 @@ import {
 import "./NutritionMeter.css";
 import Modal from "./modal/Modal";
 import MealsContainer from "./MealsContainer";
+import { roundTwoDecimalPlaces } from "./utils/Utils";
 
 const NutritionMeter = ({ selectedDay }) => {
   const defaultItemsDisplayed = [
@@ -233,20 +234,23 @@ const NutritionMeter = ({ selectedDay }) => {
 
   const totalProtein = () => {
     return nutritionItems.reduce(
-      (total, item) => total + parseFloat(item.protein) * item.quantity,
+      (total, item) => roundTwoDecimalPlaces(total + parseFloat(item.protein) * item.quantity),
       0
     );
   };
 
   const totalCarbs = () => {
     return nutritionItems.reduce(
-      (total, item) => total + parseFloat(item.carbs) * item.quantity,
+      (total, item) => roundTwoDecimalPlaces(total + parseFloat(item.carbs) * item.quantity),
       0
     );
   };
 
   const totalFat = () => {
-    return nutritionItems.reduce((total, item) => total + parseFloat(item.fat) * item.quantity, 0);
+    return nutritionItems.reduce(
+      (total, item) => roundTwoDecimalPlaces(total + parseFloat(item.fat) * item.quantity),
+      0
+    );
   };
 
   return (
@@ -432,7 +436,9 @@ const NutritionMeter = ({ selectedDay }) => {
             )}
           </div>
         </div>
-        <button className="btn-addFood" onClick={() => setIsOpen(true)}>Add Food</button>
+        <button className="btn-addFood" onClick={() => setIsOpen(true)}>
+          Add Food
+        </button>
       </div>
     </div>
   );
