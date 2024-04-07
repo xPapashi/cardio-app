@@ -1,6 +1,8 @@
 import Navbar from "./components/Navbar";
 
+import LoginPage from "./pages/LoginPage";
 import Home from "./pages/Home";
+import Dashboard from "./pages/Dashboard";
 import RecipeGenerator from "./pages/RecipeGenerator";
 import Account from "./pages/Account";
 import { Route, Routes } from "react-router-dom";
@@ -16,7 +18,9 @@ function App() {
       <div className="App">
         <Navbar />
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<LoginPage />} />
+          <Route path="/Home" element={<Home />} />
+          <Route path="/Dashboard" element={<Dashboard />} />
           <Route path="/RecipeGenerator" element={<RecipeGenerator />} />
           <Route path="/Account" element={<Account />} />
         </Routes>
