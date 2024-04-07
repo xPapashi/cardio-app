@@ -16,6 +16,7 @@ import {
 import "./NutritionMeter.css";
 import Modal from "./modal/Modal";
 import MealsContainer from "./MealsContainer";
+import { roundTwoDecimalPlaces } from "./utils/Utils";
 
 const NutritionMeter = ({ selectedDay }) => {
   const defaultItemsDisplayed = [
@@ -114,9 +115,6 @@ const NutritionMeter = ({ selectedDay }) => {
 
   const caloriesProgress = () => {
     return (totalCalories / calorieGoal) * 100;
-
-    // const root = document.documentElement;
-    // root.style.setProperty("--progress-value", totalCaloriesPercentage);
   };
 
   const calculateTotalCarb = () => {
@@ -157,7 +155,7 @@ const NutritionMeter = ({ selectedDay }) => {
       setNutritionItems([...nutritionItems, { ...newItem, id: Date.now() }]);
       // setNutritionItems([...nutritionItems, { ...newItem, id: Date.now(), quantity: 1 }]);
       setNewItem((prevItem) => ({
-        ...prevItem,
+        // ...prevItem,
         name: "",
         calories: "",
         protein: "",
@@ -208,6 +206,7 @@ const NutritionMeter = ({ selectedDay }) => {
         protein: "",
         carbs: "",
         fat: "",
+        quantity: 1,
       });
       setEditItem(null);
       setInputError(false);
@@ -235,20 +234,23 @@ const NutritionMeter = ({ selectedDay }) => {
 
   const totalProtein = () => {
     return nutritionItems.reduce(
-      (total, item) => total + parseFloat(item.protein) * item.quantity,
+      (total, item) => roundTwoDecimalPlaces(total + parseFloat(item.protein) * item.quantity),
       0
     );
   };
 
   const totalCarbs = () => {
     return nutritionItems.reduce(
-      (total, item) => total + parseFloat(item.carbs) * item.quantity,
+      (total, item) => roundTwoDecimalPlaces(total + parseFloat(item.carbs) * item.quantity),
       0
     );
   };
 
   const totalFat = () => {
-    return nutritionItems.reduce((total, item) => total + parseFloat(item.fat) * item.quantity, 0);
+    return nutritionItems.reduce(
+      (total, item) => roundTwoDecimalPlaces(total + parseFloat(item.fat) * item.quantity),
+      0
+    );
   };
 
   return (
@@ -304,7 +306,7 @@ const NutritionMeter = ({ selectedDay }) => {
                   <div className="amount-left">{totalProtein()}g</div>
                 </div>
                 <div className="macro-item">
-                  <div className="name">Fat</div>
+                  <div className="name">FAT</div>
                   <div className="progress">
                     <progress max={calculateTotalFat()} value={totalFat()}></progress>
                   </div>
@@ -377,7 +379,7 @@ const NutritionMeter = ({ selectedDay }) => {
                           inputError && newItem.calories < 0 ? "input-error" : ""
                         }`}
                         style={inputError && newItem.calories < 0 ? inputErrorStyle : {}}
-                        value={newItem.calories * newItem.quantity}
+                        value={newItem.calories}
                         onChange={(e) => setNewItem({ ...newItem, calories: e.target.value })}
                       />
                     </div>
@@ -388,7 +390,7 @@ const NutritionMeter = ({ selectedDay }) => {
                         placeholder="Protein (g)"
                         className={`item ${inputError && newItem.protein < 0 ? "input-error" : ""}`}
                         style={inputError && newItem.protein < 0 ? inputErrorStyle : {}}
-                        value={newItem.protein * newItem.quantity}
+                        value={newItem.protein}
                         onChange={(e) => setNewItem({ ...newItem, protein: e.target.value })}
                       />
                     </div>
@@ -399,7 +401,7 @@ const NutritionMeter = ({ selectedDay }) => {
                         placeholder="Carbs (g)"
                         className={`item ${inputError && newItem.carbs < 0 ? "input-error" : ""}`}
                         style={inputError && newItem.carbs < 0 ? inputErrorStyle : {}}
-                        value={newItem.carbs * newItem.quantity}
+                        value={newItem.carbs}
                         onChange={(e) => setNewItem({ ...newItem, carbs: e.target.value })}
                       />
                     </div>
@@ -410,7 +412,7 @@ const NutritionMeter = ({ selectedDay }) => {
                         placeholder="Fat (g)"
                         className={`item ${inputError && newItem.fat < 0 ? "input-error" : ""}`}
                         style={inputError && newItem.fat < 0 ? inputErrorStyle : {}}
-                        value={newItem.fat * newItem.quantity}
+                        value={newItem.fat}
                         onChange={(e) => setNewItem({ ...newItem, fat: e.target.value })}
                       />
                     </div>
@@ -434,7 +436,9 @@ const NutritionMeter = ({ selectedDay }) => {
             )}
           </div>
         </div>
-        <button className="btn-addFood" onClick={() => setIsOpen(true)}>Add Food</button>
+        <button className="btn-addFood" onClick={() => setIsOpen(true)}>
+          Add Food
+        </button>
       </div>
     </div>
   );
