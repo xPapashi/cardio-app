@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-hot-toast";
 
 function LoginPage() {
+  const navigate = useNavigate();
   const [userData, setUserData] = useState({
     email: "",
     password: "",
@@ -9,7 +12,21 @@ function LoginPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    axios.get("/");
+    const { email, password } = userData;
+    try {
+      const { data } = await axios.post("/login", { 
+        email, password 
+      });
+      if (data.error) {
+        toast.error(data.error);
+      } else {
+        setUserData({});
+        toast.success(`Welcome back, ${userData.name}`);
+        navigate("/dashboard");
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
