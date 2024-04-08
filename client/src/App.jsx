@@ -1,6 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 import axios from "axios";
 import { Toaster } from "react-hot-toast";
+import { UserContextProvider } from "../context/userContext";
 
 import Navbar from "./components/Navbar";
 import RegisterPage from "./pages/RegisterPage";
@@ -18,20 +19,20 @@ axios.defaults.withCredentials = true;
 
 function App() {
   return (
-    <>
+    <UserContextProvider>
       <div className="App">
         <Navbar />
         <Toaster position="bottom-right" toastOptions={{ duration: 2000 }} />
         <Routes>
-          <Route path="/" element={<LoginPage />} />
+          <Route path="/Login" element={<LoginPage />} />
           <Route path="/Register" element={<RegisterPage />} />
-          <Route path="/Home" element={<Home />} />
+          <Route path="/" element={<Home />} />
           <Route path="/Dashboard" element={<Dashboard />} />
           <Route path="/RecipeGenerator" element={<RecipeGenerator />} />
           <Route path="/Account" element={<Account />} />
         </Routes>
       </div>
-    </>
+    </UserContextProvider>
   );
 }
 
