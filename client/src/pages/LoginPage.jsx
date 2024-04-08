@@ -1,11 +1,15 @@
 import React, { useState } from "react";
+import axios from "axios";
 
 function LoginPage() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [userData, setUserData] = useState({
+    email: "",
+    password: "",
+  });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    axios.get("/");
   };
 
   return (
@@ -13,7 +17,7 @@ function LoginPage() {
       <div className="">
         <div className="">
           <div className="">
-            <h2></h2>
+            <h2>Login Form</h2>
             <form onSubmit={handleSubmit}>
               <div className="">
                 <label htmlFor="email">Email</label>
@@ -21,8 +25,8 @@ function LoginPage() {
                   id="email"
                   type="email"
                   placeholder="youremail@mail.com"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  value={userData.email}
+                  onChange={(e) => setUserData({ ...userData, email: e.target.value })}
                 />
               </div>
               <div className="">
@@ -31,12 +35,12 @@ function LoginPage() {
                   id="password"
                   type="password"
                   placeholder="********"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  value={userData.password}
+                  onChange={(e) => setUserData({ ...userData, password: e.target.value })}
                 />
               </div>
               <div className="">
-                <button type="button">Login</button>
+                <button type="submit">Login</button>
               </div>
               {/* {error && <div>{error}</div>} */}
             </form>
