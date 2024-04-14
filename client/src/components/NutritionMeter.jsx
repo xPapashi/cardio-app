@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { CircularProgressbarWithChildren, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -17,6 +17,7 @@ import "./NutritionMeter.css";
 import Modal from "./modal/Modal";
 import MealsContainer from "./MealsContainer";
 import { roundTwoDecimalPlaces } from "./utils/Utils";
+import { UserContext } from "../../context/userContext";
 
 const NutritionMeter = ({ selectedDay }) => {
   const defaultItemsDisplayed = [
@@ -68,12 +69,19 @@ const NutritionMeter = ({ selectedDay }) => {
     quantity: 1,
   });
 
+
+  const {user} = useContext(UserContext);
+  const userCalorieGoal = user ? user.calorieGoal : 2500;
+
   const [editItem, setEditItem] = useState(null);
   const [totalCalories, setTotalCalories] = useState(0);
   const [showWarning, setShowWarning] = useState(false);
   const [inputError, setInputError] = useState(false);
-  const [calorieGoal, setCalorieGoal] = useState(2500);
+  const [calorieGoal, setCalorieGoal] = useState(1000);
   const [isOpen, setIsOpen] = useState(false);
+
+  console.log(userCalorieGoal);
+
 
   const handleClose = (e) => {
     e.preventDefault();
@@ -97,6 +105,9 @@ const NutritionMeter = ({ selectedDay }) => {
     );
 
     setTotalCalories(calculateTotalCalories);
+    if (userCalorieGoal) {
+      setCalorieGoal(userCalorieGoal);
+    }
 
     if (calculateTotalCalories > calorieGoal) {
       setShowWarning(true);
@@ -105,7 +116,7 @@ const NutritionMeter = ({ selectedDay }) => {
     }
 
     caloriesProgress();
-  }, [nutritionItems, totalCalories]);
+  }, [nutritionItems, totalCalories, userCalorieGoal]);
 
   const caloriesLeft = () => {
     const remainingCalories = calorieGoal - totalCalories;
