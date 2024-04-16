@@ -71,7 +71,7 @@ const NutritionMeter = ({ selectedDay }) => {
 
 
   const {user} = useContext(UserContext);
-  const userCalorieGoal = user ? user.calorieGoal : 2500;
+  const userCalorieGoal = user ? user.calorieGoal : 0;
 
   const [editItem, setEditItem] = useState(null);
   const [totalCalories, setTotalCalories] = useState(0);

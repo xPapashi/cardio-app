@@ -5,7 +5,7 @@ import { UserContextProvider } from "../context/userContext";
 
 import Navbar from "./components/Navbar";
 import RegisterPage from "./pages/RegisterPage";
-import LoginPage from "./pages/LoginPage";
+import LoginPage from "./pages/LoginPage"
 import Home from "./pages/Home";
 import Dashboard from "./pages/Dashboard";
 import RecipeGenerator from "./pages/RecipeGenerator";
