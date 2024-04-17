@@ -5,31 +5,18 @@ import { toast } from "react-hot-toast";
 
 export default function Account() {
   const navigate = useNavigate();
+  const [isloggedIn, setIsLoggedIn] = useState(false);
 
   //prevent unauthorized access if user is not logged in and redirect to login page
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
   useEffect(() => {
-    axios
-      .get("/profile")
-      .then(({ data }) => {
-        setUser(data);
-        setLoading(false);
-      })
-      .catch((error) => {
-        setError(error);
-        setLoading(false);
-      });
-  }, []);
-
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>There was an error: {error.message}</p>;
-  if (!user) {
-    toast.error("You must be logged in to view this page");
-    navigate("/login");
-  }
+    axios.get("/profile").then(({ data }) => {
+      if (!data) {
+        navigate("/login");
+      } else {
+        setIsLoggedIn(true);
+      }
+    });
+  }, [navigate]);
 
   const handleLogout = async (e) => {
     e.preventDefault();
