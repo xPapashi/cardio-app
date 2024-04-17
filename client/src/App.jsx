@@ -1,11 +1,11 @@
-import { Route, Routes } from "react-router-dom";
 import axios from "axios";
-import { Toaster } from "react-hot-toast";
+import { Navigate, Route, Routes } from "react-router-dom";
 import { UserContextProvider } from "../context/userContext";
+import { Toaster } from "react-hot-toast";
 
 import Navbar from "./components/Navbar";
 import RegisterPage from "./pages/RegisterPage";
-import LoginPage from "./pages/LoginPage"
+import LoginPage from "./pages/LoginPage";
 import Home from "./pages/Home";
 import Dashboard from "./pages/Dashboard";
 import RecipeGenerator from "./pages/RecipeGenerator";
@@ -18,21 +18,22 @@ axios.defaults.baseURL = "http://localhost:8000";
 axios.defaults.withCredentials = true;
 
 function App() {
+
   return (
-    <UserContextProvider>
-      <div className="App">
+    <div className="App">
+      <UserContextProvider>
         <Navbar />
         <Toaster position="bottom-right" toastOptions={{ duration: 2000 }} />
         <Routes>
-          <Route path="/Login" element={<LoginPage />} />
-          <Route path="/Register" element={<RegisterPage />} />
-          <Route path="/" element={<Home />} />
           <Route path="/Dashboard" element={<Dashboard />} />
           <Route path="/RecipeGenerator" element={<RecipeGenerator />} />
           <Route path="/Account" element={<Account />} />
+          <Route path="/Login" element={<LoginPage />} />
+          <Route path="/Register" element={<RegisterPage />} />
+          <Route path="/" element={<Home />} />
         </Routes>
-      </div>
-    </UserContextProvider>
+      </UserContextProvider>
+    </div>
   );
 }
 

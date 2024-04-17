@@ -2,6 +2,11 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
+import { checkLoggedIn } from "../components/auth/auth";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHeart } from "@fortawesome/free-solid-svg-icons";
+
+import "./LoginPage.css";
 
 export function LoginPage() {
   const navigate = useNavigate();
@@ -12,17 +17,7 @@ export function LoginPage() {
 
   //restrict access if user is already logged in and redirect to dashboard
   useEffect(() => {
-    const checkLoggedIn = async () => {
-      try {
-        const { data } = await axios.get("/profile");
-        if (data.email) {
-          navigate("/dashboard");
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    checkLoggedIn();
+    checkLoggedIn(navigate);
   }, [navigate]);
 
   const handleSubmit = async (e) => {
@@ -46,39 +41,58 @@ export function LoginPage() {
   };
 
   return (
-    <main>
-      <div className="">
-        <div className="">
-          <div className="">
-            <h2>Login Form</h2>
-            <form onSubmit={handleSubmit}>
-              <div className="">
-                <label htmlFor="email">Email</label>
-                <input
-                  id="email"
-                  type="email"
-                  placeholder="youremail@mail.com"
-                  value={userData.email}
-                  onChange={(e) => setUserData({ ...userData, email: e.target.value })} />
-              </div>
-              <div className="">
-                <label htmlFor="password">Password</label>
-                <input
-                  id="password"
-                  type="password"
-                  placeholder="********"
-                  value={userData.password}
-                  onChange={(e) => setUserData({ ...userData, password: e.target.value })} />
-              </div>
-              <div className="">
-                <button type="submit">Login</button>
-              </div>
-              {/* {error && <div>{error}</div>} */}
-            </form>
+    <div className="loginContent">
+      <div className="loginLeft">
+        <div className="logo">
+          <FontAwesomeIcon icon={faHeart} />
+          <h1>CALORIELOVE</h1>
+        </div>
+        <div className="center">
+          <div className="titleWelcome">Welcome</div>
+          <div className="textParagraph">
+            <p>Don't have an account? Create your account, it takes</p>
+            <p>less than a minute!</p>
+          </div>
+          <div className="registerButton">
+            <button type="button">Register Now</button>
           </div>
         </div>
+        <div className="link">www.calorielove.com</div>
       </div>
-    </main>
+      <div className="loginRight">
+        <h2>Sign In</h2>
+        <form onSubmit={handleSubmit}>
+          <div className="loginInput">
+            <label htmlFor="email">Email</label>
+            <input
+              id="email"
+              type="email"
+              value={userData.email}
+              onChange={(e) => setUserData({ ...userData, email: e.target.value })}
+            />
+          </div>
+          <div className="loginInput">
+            <label htmlFor="password">Password</label>
+            <input
+              id="password"
+              type="password"
+              value={userData.password}
+              onChange={(e) => setUserData({ ...userData, password: e.target.value })}
+            />
+          </div>
+          <div className="rememberPass">
+            <div className="remember">
+              <input type="checkbox" id="remember" />
+              <label htmlFor="remember">Remember me</label>
+            </div>
+            <a href="/forgot-password">Forgot Password?</a>
+          </div>
+          <div className="loginSubmit">
+            <button type="submit">LOGIN</button>
+          </div>
+        </form>
+      </div>
+    </div>
   );
 }
 

@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
+import {checkLoggedIn} from "../components/auth/auth";
 
 function RegisterPage() {
   const navigate = useNavigate();
@@ -10,6 +11,10 @@ function RegisterPage() {
     email: "",
     password: "",
   });
+
+  useEffect(() => {
+    checkLoggedIn(navigate);
+  }, [navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
