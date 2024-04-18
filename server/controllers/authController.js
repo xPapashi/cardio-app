@@ -69,9 +69,9 @@ const loginUser = async (req, res) => {
     const match = await comparePasswords(password, user.password);
     if (match) {
       jwt.sign(
-        { email: user.email, id: user._id, name: user.name },
+        { id: user._id, name: user.name, email: user.email, calorieGoal: user.calorieGoal },
         process.env.JWT_SECRET,
-        {},
+        {expiresIn: "3d"},
         (err, token) => {
           if (err) throw err;
           res.cookie("token", token).json(user);
@@ -90,7 +90,7 @@ const loginUser = async (req, res) => {
 };
 
 //Get User Account
-const getAccount = async (req, res) => {
+const getProfile = async (req, res) => {
   const { token } = req.cookies;
   if (token) {
     jwt.verify(token, process.env.JWT_SECRET, {}, (err, user) => {
@@ -102,9 +102,15 @@ const getAccount = async (req, res) => {
   }
 };
 
+//create logout const to logout user
+const logoutUser = async (req, res) => {
+  res.clearCookie("token").json({ message: "User has been logged out!" });
+};
+
 module.exports = {
   connTest,
   registerUser,
   loginUser,
-  getAccount,
+  getProfile,
+  logoutUser,
 };
