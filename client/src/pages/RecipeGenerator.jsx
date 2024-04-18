@@ -1,11 +1,19 @@
 import React from "react";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { fetchUserProfile } from "../components/auth/auth";
 import MealList from "../components/MealList"
 import "./RecipeGenerator.css";
 
 export default function RecipeGenerator() {
   const [mealData, setMealData] = useState(null);
   const [calorieData, setCalorieData] = useState(3000);
+  const navigate = useNavigate();
+  const [isloggedIn, setIsLoggedIn] = useState(false);
+  
+  useEffect(() => {
+    fetchUserProfile(setIsLoggedIn, "/login", navigate);
+  }, [navigate]);
 
   function handleChange(e) {
     setCalorieData(e.target.value);

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Navigate } from "react-router-dom";
+import { Navigate, json } from "react-router-dom";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
-import { checkLoggedIn } from "../components/auth/auth";
+import { checkLoggedIn, fetchUserProfile } from "../components/auth/auth";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 
@@ -11,6 +11,7 @@ import "./LoginPage.css";
 
 export function LoginPage() {
   const navigate = useNavigate();
+  const [isloggedIn, setIsLoggedIn] = useState(false); // check if user is logged in
   const [userData, setUserData] = useState({
     email: "",
     password: "",
@@ -18,7 +19,8 @@ export function LoginPage() {
 
   //restrict access if user is already logged in and redirect to dashboard
   useEffect(() => {
-    checkLoggedIn(navigate);
+    // checkLoggedIn(navigate);
+    checkLoggedIn(setIsLoggedIn, navigate);
   }, [navigate]);
 
   const handleSubmit = async (e) => {

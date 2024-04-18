@@ -1,9 +1,19 @@
 import React, { useState, useEffect } from "react";
 import NutritionMeter from "../components/NutritionMeter";
 import DaysOfWeek from "../components/DaysOfWeek";
+import { fetchUserProfile } from "../components/auth/auth";
+import { useNavigate } from "react-router-dom";
 
 export default function Dashboard() {
   const [selectedDay, setSelectedDay] = useState(getCurrentDay());
+  const navigate = useNavigate();
+  const [isloggedIn, setIsLoggedIn] = useState(false);
+  
+  useEffect(() => {
+    fetchUserProfile(setIsLoggedIn, "/login", navigate);
+  }, [navigate]);
+
+
 
   return (
     <main>

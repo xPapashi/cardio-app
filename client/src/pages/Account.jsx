@@ -2,27 +2,24 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
+import {fetchUserProfile} from "../components/auth/auth";
 
 export default function Account() {
   const navigate = useNavigate();
   const [isloggedIn, setIsLoggedIn] = useState(false);
-
-  //prevent unauthorized access if user is not logged in and redirect to login page
+  
   useEffect(() => {
-    axios.get("/profile").then(({ data }) => {
-      if (!data) {
-        navigate("/login");
-      } else {
-        setIsLoggedIn(true);
-      }
-    });
+    fetchUserProfile(setIsLoggedIn, "/login", navigate);
   }, [navigate]);
 
-  const handleLogout = async (e) => {
-    e.preventDefault();
+  //create asynchronouse logout function that sends a post request to the server and logs the user out
+  //then clear the cookie and token and redirect to the login page
+  const handleLogout = async () => {
     try {
       await axios.post("/logout");
+      localStorage.clear("token");
       toast.success("You have been logged out");
+      setIsLoggedIn(false);
       navigate("/");
     } catch (error) {
       console.log(error);
