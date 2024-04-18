@@ -63,22 +63,24 @@ export function LoginPage() {
         <h2>Sign In</h2>
         <form onSubmit={handleSubmit}>
           <div className="loginInput">
-            <label htmlFor="email">Email</label>
             <input
               id="email"
               type="email"
+              required
               value={userData.email}
               onChange={(e) => setUserData({ ...userData, email: e.target.value })}
             />
+            <label htmlFor="email">Email</label>
           </div>
           <div className="loginInput">
-            <label htmlFor="password">Password</label>
             <input
               id="password"
               type="password"
+              required
               value={userData.password}
               onChange={(e) => setUserData({ ...userData, password: e.target.value })}
             />
+            <label htmlFor="password">Password</label>
           </div>
           <div className="rememberPass">
             <div className="remember">

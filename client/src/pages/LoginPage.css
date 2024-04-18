@@ -24,7 +24,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  background: url("../../public/loginBg.jpg");
+  background: url("/loginBg.jpg");
   background-size: cover;
   background-position: center;
   min-width: 450px;
@@ -106,6 +106,7 @@ body {
   display: flex;
   flex-direction: column;
   margin-bottom: 2rem;
+  position: relative;
 }
 
 .loginInput::after {
@@ -123,7 +124,18 @@ body {
 
 .loginInput label {
   color: #b3b3b3;
+  position: absolute;
+  top: 30%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  transition: 0.35s;
 }
+
+.loginInput input:focus ~ label,
+.loginInput input:valid ~ label{
+  top: -50%;
+}
+
 
 .rememberPass {
   display: flex;
