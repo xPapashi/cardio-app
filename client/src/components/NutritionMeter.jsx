@@ -77,11 +77,8 @@ const NutritionMeter = ({ selectedDay }) => {
   const [totalCalories, setTotalCalories] = useState(0);
   const [showWarning, setShowWarning] = useState(false);
   const [inputError, setInputError] = useState(false);
-  const [calorieGoal, setCalorieGoal] = useState(1000);
+  const [calorieGoal, setCalorieGoal] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
-
-  console.log(userCalorieGoal);
-
 
   const handleClose = (e) => {
     e.preventDefault();

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Navigate } from "react-router-dom";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
@@ -54,7 +55,11 @@ export function LoginPage() {
             <p>less than a minute!</p>
           </div>
           <div className="registerButton">
-            <button type="button">Register Now</button>
+            <button type="button" onClick={() => navigate("/register")}>
+              <span>
+              Register Now
+              </span>
+            </button>
           </div>
         </div>
         <div className="link">www.calorielove.com</div>
@@ -87,7 +92,7 @@ export function LoginPage() {
               <input type="checkbox" id="remember" />
               <label htmlFor="remember">Remember me</label>
             </div>
-            <a href="/forgot-password">Forgot Password?</a>
+            <a href="">Forgot Password?</a>
           </div>
           <div className="loginSubmit">
             <button type="submit">LOGIN</button>
