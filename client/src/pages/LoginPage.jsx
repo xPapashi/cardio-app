@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Navigate } from "react-router-dom";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
@@ -54,7 +55,11 @@ export function LoginPage() {
             <p>less than a minute!</p>
           </div>
           <div className="registerButton">
-            <button type="button">Register Now</button>
+            <button type="button" onClick={() => navigate("/register")}>
+              <span>
+              Register Now
+              </span>
+            </button>
           </div>
         </div>
         <div className="link">www.calorielove.com</div>
@@ -63,29 +68,31 @@ export function LoginPage() {
         <h2>Sign In</h2>
         <form onSubmit={handleSubmit}>
           <div className="loginInput">
-            <label htmlFor="email">Email</label>
             <input
               id="email"
               type="email"
+              required
               value={userData.email}
               onChange={(e) => setUserData({ ...userData, email: e.target.value })}
             />
+            <label htmlFor="email">Email</label>
           </div>
           <div className="loginInput">
-            <label htmlFor="password">Password</label>
             <input
               id="password"
               type="password"
+              required
               value={userData.password}
               onChange={(e) => setUserData({ ...userData, password: e.target.value })}
             />
+            <label htmlFor="password">Password</label>
           </div>
           <div className="rememberPass">
             <div className="remember">
               <input type="checkbox" id="remember" />
               <label htmlFor="remember">Remember me</label>
             </div>
-            <a href="/forgot-password">Forgot Password?</a>
+            <a href="">Forgot Password?</a>
           </div>
           <div className="loginSubmit">
             <button type="submit">LOGIN</button>
