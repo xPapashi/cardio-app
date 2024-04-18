@@ -2,7 +2,10 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
-import {checkLoggedIn} from "../components/auth/auth";
+import { checkLoggedIn } from "../components/auth/auth";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHeart } from "@fortawesome/free-solid-svg-icons";
+import "./RegisterPage.css";
 
 function RegisterPage() {
   const navigate = useNavigate();
@@ -35,31 +38,61 @@ function RegisterPage() {
   };
 
   return (
-    <div className="">
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="Name">Name</label>
-        <input
-          type="text"
-          placeholder="John Doe"
-          value={userData.name}
-          onChange={(e) => setUserData({ ...userData, name: e.target.value })}
-        />
-        <label htmlFor="Email">Email</label>
-        <input
-          type="email"
-          placeholder="mail@email.com"
-          value={userData.email}
-          onChange={(e) => setUserData({ ...userData, email: e.target.value })}
-        />
-        <label htmlFor="Password">Password</label>
-        <input
-          type="password"
-          placeholder="********"
-          value={userData.password}
-          onChange={(e) => setUserData({ ...userData, password: e.target.value })}
-        />
-        <button type="submit">Register</button>
-      </form>
+    <div className="registerContent">
+      <div className="registerLeft">
+        <div className="logo">
+          <FontAwesomeIcon icon={faHeart} />
+          <h1>CALORIELOVE</h1>
+        </div>
+        <div className="center">
+          <div className="titleWelcome">Welcome</div>
+          <div className="textParagraph">
+            <p>Already have an account? Login to your account</p>
+            <p>and start tracking your calories!</p>
+          </div>
+          <div className="loginButton">
+            <button type="button" onClick={() => navigate("/login")}>
+              Login
+            </button>
+          </div>
+        </div>
+        <div className="link">www.calorielove.com</div>
+      </div>
+      <div className="registerRight">
+        <h2>Sign Up</h2>
+        <form onSubmit={handleSubmit}>
+          <div className="registerInput">
+            <input
+              type="text"
+              value={userData.name}
+              required
+              onChange={(e) => setUserData({ ...userData, name: e.target.value })}
+            />
+            <label htmlFor="Name">Name</label>
+          </div>
+          <div className="registerInput">
+            <input
+              type="email"
+              value={userData.email}
+              required
+              onChange={(e) => setUserData({ ...userData, email: e.target.value })}
+            />
+            <label htmlFor="Email">Email</label>
+          </div>
+          <div className="registerInput">
+            <input
+              type="password"
+              value={userData.password}
+              required
+              onChange={(e) => setUserData({ ...userData, password: e.target.value })}
+            />
+            <label htmlFor="Password">Password</label>
+          </div>
+          <div className="registerSubmit">
+            <button type="submit">REGISTER</button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 }
