@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Route, Routes, Navigate } from "react-router-dom";
 import { UserContextProvider } from "../context/userContext";
 import { Toaster } from "react-hot-toast";
 
@@ -25,7 +25,10 @@ function App() {
         <Navbar />
         <Toaster position="bottom-right" toastOptions={{ duration: 2000 }} />
         <Routes>
-          <Route path="/Dashboard" element={<Dashboard />} />
+          <Route
+            path="/Dashboard"
+            element={<Dashboard />}
+          />
           <Route path="/RecipeGenerator" element={<RecipeGenerator />} />
           <Route path="/Account" element={<Account />} />
           <Route path="/Login" element={<LoginPage />} />

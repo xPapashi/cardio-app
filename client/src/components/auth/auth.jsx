@@ -2,31 +2,30 @@ import axios from "axios";
 import toast from "react-hot-toast";
 
 // check if user is logged in and redirect to dashboard
-const checkLoggedIn = async (navigate) => {
-  try {
-    const { data } = await axios.get("/profile"); // get user data
-    if (data) {
-      // if user is logged in
-      toast.error("You are already logged in!");
-      navigate("/dashboard");
-    }
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-
-function fetchUserProfile(setUser, setIsLoading) {
+function checkLoggedIn(setIsLoggedIn, navigate) {
   axios
-    .get("/profile")
-    .then(({ data }) => {
-      setUser(data);
-      setIsLoading(false);
+  .get("/profile")
+    .then(({ data}) => {
+      if (data) {
+        setIsLoggedIn(true);
+        navigate("/dashboard");
+      } else {
+        setIsLoggedIn(false);
+      }
     })
-    .catch((err) => {
-      setIsLoading(false);
+  }
+
+  function fetchUserProfile(setIsLoggedIn, location, navigate) {
+    axios
+      .get("/profile")
+      .then(({ data }) => {
+      if (!data) {
+        setIsLoggedIn(false);
+        navigate(location);
+      } else {
+        setIsLoggedIn(true);
+      }
     });
 }
-
 
 export { checkLoggedIn, fetchUserProfile };

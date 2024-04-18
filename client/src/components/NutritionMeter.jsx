@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { CircularProgressbarWithChildren, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
+import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faEdit,
@@ -17,7 +18,6 @@ import "./NutritionMeter.css";
 import Modal from "./modal/Modal";
 import MealsContainer from "./MealsContainer";
 import { roundTwoDecimalPlaces } from "./utils/Utils";
-import { UserContext } from "../../context/userContext";
 
 const NutritionMeter = ({ selectedDay }) => {
   const defaultItemsDisplayed = [
@@ -70,8 +70,17 @@ const NutritionMeter = ({ selectedDay }) => {
   });
 
 
-  const {user} = useContext(UserContext);
-  const userCalorieGoal = user ? user.calorieGoal : 0;
+
+  //get user data from /profile and set calorieGoal to the user's calorieGoal
+  useEffect(() => {
+    axios.get("/profile")
+      .then(({ data }) => {
+        setCalorieGoal(data.calorieGoal);
+      })
+      .catch(() => {
+        setCalorieGoal(0);
+      });
+  }, []);
 
   const [editItem, setEditItem] = useState(null);
   const [totalCalories, setTotalCalories] = useState(0);
@@ -102,18 +111,14 @@ const NutritionMeter = ({ selectedDay }) => {
     );
 
     setTotalCalories(calculateTotalCalories);
-    if (userCalorieGoal) {
-      setCalorieGoal(userCalorieGoal);
-    }
-
-    if (calculateTotalCalories > calorieGoal) {
-      setShowWarning(true);
-    } else {
-      setShowWarning(false);
-    }
+    // if (calculateTotalCalories > calorieGoal) {
+    //   setShowWarning(true);
+    // } else {
+    //   setShowWarning(false);
+    // }
 
     caloriesProgress();
-  }, [nutritionItems, totalCalories, userCalorieGoal]);
+  }, [nutritionItems, totalCalories]);
 
   const caloriesLeft = () => {
     const remainingCalories = calorieGoal - totalCalories;

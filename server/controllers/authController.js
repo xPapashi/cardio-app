@@ -102,9 +102,10 @@ const getProfile = async (req, res) => {
   }
 };
 
-//create logout const to logout user
-const logoutUser = async (req, res) => {
-  res.clearCookie("token").json({ message: "User has been logged out!" });
+// Logout User function
+const logoutUser = (req, res) => {
+  res.clearCookie("token");
+  res.json({ message: "User logged out successfully!" });
 };
 
 module.exports = {

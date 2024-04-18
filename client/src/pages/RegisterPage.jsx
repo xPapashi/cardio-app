@@ -6,6 +6,7 @@ import {checkLoggedIn} from "../components/auth/auth";
 
 function RegisterPage() {
   const navigate = useNavigate();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userData, setUserData] = useState({
     name: "",
     email: "",
@@ -13,7 +14,7 @@ function RegisterPage() {
   });
 
   useEffect(() => {
-    checkLoggedIn(navigate);
+    checkLoggedIn(setIsLoggedIn, navigate);
   }, [navigate]);
 
   const handleSubmit = async (e) => {
