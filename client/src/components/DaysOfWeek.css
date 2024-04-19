@@ -6,7 +6,8 @@
 .box {
   display: flex;
   justify-content: center;
-  background-color: #eceaea;
+  /* background-color: #eceaea; */
+  background-color: #9596ab;
   padding: 0.5rem;
   border-radius: 6px;
   gap: 0.5rem;
@@ -14,14 +15,18 @@
 }
 
 .day {
-  background-color: #646cff;
-  color: #eceaea;
+  /* background-color: #646cff;
+  color: #eceaea; */
+  background-color: #fff;
+  color: #646cff;
   transition: border-color 0.25s;
 }
 
-.day:hover { 
-    background-color: white;
-    color: #646cff;
+.day:hover {
+  /* background-color: white;
+    color: #646cff; */
+  background-color: #646cff;
+  color: #eceaea;
 }
 
 .day:focus {
@@ -32,13 +37,14 @@
 }
 
 .title-container {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
 }
 
 .dow-title {
-    background-color: #eceaea;
-    padding: 0.25rem 4rem 0 4rem;
-    border-radius: 6px 6px 0 0;
-    font-weight: 500;
+  background-color: #9596ab;
+  color: #fff;
+  padding: 0.25rem 4rem 0 4rem;
+  border-radius: 6px 6px 0 0;
+  font-weight: 500;
 }

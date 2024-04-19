@@ -10,14 +10,6 @@
   }
 }
 
-body {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  margin: 0;
-}
-
 .loginContent {
   display: flex;
   justify-content: center;
@@ -84,6 +76,10 @@ body {
   border-radius: 0;
   background-color: #fff;
   transition: 0.25s ease;
+}
+
+.center .registerButton button:active {
+  outline: none;
 }
 
 .center .registerButton button:hover {

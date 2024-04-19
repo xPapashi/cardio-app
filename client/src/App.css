@@ -1,7 +1,7 @@
 #root {
-  max-width: 1280px;
+  /* max-width: 1280px; */
   margin: 0 auto;
-  padding: 1rem 2rem 2rem 2rem;
+  /* padding: 1rem 2rem 2rem 2rem; */
   text-align: center;
 }
 
@@ -28,6 +28,7 @@ nav {
   display: flex;
   justify-content: center;
   margin-bottom: 3rem;
+  margin-top: 2rem;
 }
 
 nav ul {

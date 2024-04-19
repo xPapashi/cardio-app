@@ -2,12 +2,12 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
-import {fetchUserProfile} from "../components/auth/auth";
+import { fetchUserProfile } from "../components/auth/auth";
 
 export default function Account() {
   const navigate = useNavigate();
   const [isloggedIn, setIsLoggedIn] = useState(false);
-  
+
   useEffect(() => {
     fetchUserProfile(setIsLoggedIn, "/login", navigate);
   }, [navigate]);
@@ -28,18 +28,24 @@ export default function Account() {
 
   return (
     <main>
-      <h1>Account</h1>
-      <ul>
-        <li>
-          <button>Test</button>
-        </li>
-        <li>
-          <button>Change Password</button>
-        </li>
-        <li>
-          <button onClick={handleLogout}>Logout</button>
-        </li>
-      </ul>
+      <div className="accountContainer">
+        <div className="accountTitle">
+          <h1>Account</h1>
+        </div>
+        <div className="accountOptions">
+          <ul>
+            <li>
+              <button>Test</button>
+            </li>
+            <li>
+              <button>Change Calorie Goal</button>
+            </li>
+            <li>
+              <button onClick={handleLogout}>Logout</button>
+            </li>
+          </ul>
+        </div>
+      </div>
     </main>
   );
 }
