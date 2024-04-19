@@ -69,11 +69,10 @@ const NutritionMeter = ({ selectedDay }) => {
     quantity: 1,
   });
 
-
-
   //get user data from /profile and set calorieGoal to the user's calorieGoal
   useEffect(() => {
-    axios.get("/profile")
+    axios
+      .get("/profile")
       .then(({ data }) => {
         setCalorieGoal(data.calorieGoal);
       })
@@ -268,6 +267,117 @@ const NutritionMeter = ({ selectedDay }) => {
 
   return (
     <div className="wrapper">
+      {isOpen && (
+        <Modal handleClose={handleClose}>
+          <div className="form-container">
+            <div className="form-title">
+              <h2>Log Foods</h2>
+              <button type="button" onClick={handleClose}>
+                X
+              </button>
+            </div>
+            <div className="food-name">
+              <label htmlFor="item">Food Name</label>
+              <div className="split">
+                <input
+                  type="text"
+                  placeholder="Name"
+                  className={`item${inputError && !newItem.name ? "input-error" : ""}`}
+                  style={inputError && !newItem.name ? inputErrorStyle : {}}
+                  value={newItem.name}
+                  onChange={(e) => setNewItem({ ...newItem, name: e.target.value })}
+                />
+                <div className="quantityInfo">
+                  <button
+                    className="quantity-Add"
+                    onClick={() =>
+                      setNewItem((prevItem) => ({
+                        ...prevItem,
+                        quantity: prevItem.quantity + 1,
+                      }))
+                    }
+                  >
+                    <FontAwesomeIcon icon={faPlus} />
+                  </button>
+                  <span className="quantity-Num">{newItem.quantity}</span>
+                  <button
+                    className="quantity-Take"
+                    onClick={() =>
+                      setNewItem((prevItem) => ({
+                        ...prevItem,
+                        quantity: Math.max(prevItem.quantity - 1, 1),
+                      }))
+                    }
+                  >
+                    <FontAwesomeIcon icon={faMinus} />
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div className="form-inputs">
+              <div>
+                <label htmlFor="item">Calories (kcal)</label>
+                <input
+                  type="number"
+                  placeholder="Calories"
+                  className={`item ${inputError && newItem.calories < 0 ? "input-error" : ""}`}
+                  style={inputError && newItem.calories < 0 ? inputErrorStyle : {}}
+                  value={newItem.calories}
+                  onChange={(e) => setNewItem({ ...newItem, calories: e.target.value })}
+                />
+              </div>
+              <div>
+                <label htmlFor="item">Protein (g)</label>
+                <input
+                  type="number"
+                  placeholder="Protein (g)"
+                  className={`item ${inputError && newItem.protein < 0 ? "input-error" : ""}`}
+                  style={inputError && newItem.protein < 0 ? inputErrorStyle : {}}
+                  value={newItem.protein}
+                  onChange={(e) => setNewItem({ ...newItem, protein: e.target.value })}
+                />
+              </div>
+              <div>
+                <label htmlFor="item">Carbohydrates (g)</label>
+                <input
+                  type="number"
+                  placeholder="Carbs (g)"
+                  className={`item ${inputError && newItem.carbs < 0 ? "input-error" : ""}`}
+                  style={inputError && newItem.carbs < 0 ? inputErrorStyle : {}}
+                  value={newItem.carbs}
+                  onChange={(e) => setNewItem({ ...newItem, carbs: e.target.value })}
+                />
+              </div>
+              <div>
+                <label htmlFor="item">Fats (g)</label>
+                <input
+                  type="number"
+                  placeholder="Fat (g)"
+                  className={`item ${inputError && newItem.fat < 0 ? "input-error" : ""}`}
+                  style={inputError && newItem.fat < 0 ? inputErrorStyle : {}}
+                  value={newItem.fat}
+                  onChange={(e) => setNewItem({ ...newItem, fat: e.target.value })}
+                />
+              </div>
+            </div>
+            <div className="form-buttons">
+              {editItem ? (
+                <button className="btn" onClick={updateItemFunction}>
+                  Update Item
+                </button>
+              ) : (
+                <button className="btn" onClick={addNutritionItem}>
+                  Add Item
+                </button>
+              )}
+              <button className="btn" onClick={removeAllItems}>
+                Clear All
+              </button>
+            </div>
+          </div>
+        </Modal>
+      )}
+
       <div className="container">
         <h1 className="Title">{selectedDay}</h1>
         {showWarning && (
@@ -335,122 +445,10 @@ const NutritionMeter = ({ selectedDay }) => {
               deleteItemFunction={deleteItemFunction}
               updateItemQuantity={updateItemQuantity}
             />
-            {isOpen && (
-              <Modal handleClose={handleClose}>
-                <div className="form-container">
-                  <div className="form-title">
-                    <h2>Log Foods</h2>
-                    <button type="button" onClick={handleClose}>
-                      X
-                    </button>
-                  </div>
-                  <div className="food-name">
-                    <label htmlFor="item">Food Name</label>
-                    <div className="split">
-                      <input
-                        type="text"
-                        placeholder="Name"
-                        className={`item${inputError && !newItem.name ? "input-error" : ""}`}
-                        style={inputError && !newItem.name ? inputErrorStyle : {}}
-                        value={newItem.name}
-                        onChange={(e) => setNewItem({ ...newItem, name: e.target.value })}
-                      />
-                      <div className="quantityInfo">
-                        <button
-                          className="quantity-Add"
-                          onClick={() =>
-                            setNewItem((prevItem) => ({
-                              ...prevItem,
-                              quantity: prevItem.quantity + 1,
-                            }))
-                          }
-                        >
-                          <FontAwesomeIcon icon={faPlus} />
-                        </button>
-                        <span className="quantity-Num">{newItem.quantity}</span>
-                        <button
-                          className="quantity-Take"
-                          onClick={() =>
-                            setNewItem((prevItem) => ({
-                              ...prevItem,
-                              quantity: Math.max(prevItem.quantity - 1, 1),
-                            }))
-                          }
-                        >
-                          <FontAwesomeIcon icon={faMinus} />
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="form-inputs">
-                    <div>
-                      <label htmlFor="item">Calories (kcal)</label>
-                      <input
-                        type="number"
-                        placeholder="Calories"
-                        className={`item ${
-                          inputError && newItem.calories < 0 ? "input-error" : ""
-                        }`}
-                        style={inputError && newItem.calories < 0 ? inputErrorStyle : {}}
-                        value={newItem.calories}
-                        onChange={(e) => setNewItem({ ...newItem, calories: e.target.value })}
-                      />
-                    </div>
-                    <div>
-                      <label htmlFor="item">Protein (g)</label>
-                      <input
-                        type="number"
-                        placeholder="Protein (g)"
-                        className={`item ${inputError && newItem.protein < 0 ? "input-error" : ""}`}
-                        style={inputError && newItem.protein < 0 ? inputErrorStyle : {}}
-                        value={newItem.protein}
-                        onChange={(e) => setNewItem({ ...newItem, protein: e.target.value })}
-                      />
-                    </div>
-                    <div>
-                      <label htmlFor="item">Carbohydrates (g)</label>
-                      <input
-                        type="number"
-                        placeholder="Carbs (g)"
-                        className={`item ${inputError && newItem.carbs < 0 ? "input-error" : ""}`}
-                        style={inputError && newItem.carbs < 0 ? inputErrorStyle : {}}
-                        value={newItem.carbs}
-                        onChange={(e) => setNewItem({ ...newItem, carbs: e.target.value })}
-                      />
-                    </div>
-                    <div>
-                      <label htmlFor="item">Fats (g)</label>
-                      <input
-                        type="number"
-                        placeholder="Fat (g)"
-                        className={`item ${inputError && newItem.fat < 0 ? "input-error" : ""}`}
-                        style={inputError && newItem.fat < 0 ? inputErrorStyle : {}}
-                        value={newItem.fat}
-                        onChange={(e) => setNewItem({ ...newItem, fat: e.target.value })}
-                      />
-                    </div>
-                  </div>
-                  <div className="form-buttons">
-                    {editItem ? (
-                      <button className="btn" onClick={updateItemFunction}>
-                        Update Item
-                      </button>
-                    ) : (
-                      <button className="btn" onClick={addNutritionItem}>
-                        Add Item
-                      </button>
-                    )}
-                    <button className="btn" onClick={removeAllItems}>
-                      Clear All
-                    </button>
-                  </div>
-                </div>
-              </Modal>
-            )}
           </div>
         </div>
         <button className="btn-addFood" onClick={() => setIsOpen(true)}>
-          Add Food
+          ADD FOOD
         </button>
       </div>
     </div>

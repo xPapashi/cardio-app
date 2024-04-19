@@ -52,7 +52,7 @@ function RegisterPage() {
           </div>
           <div className="loginButton">
             <button type="button" onClick={() => navigate("/login")}>
-              Login
+              <span>Login</span>
             </button>
           </div>
         </div>
