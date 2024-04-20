@@ -6,7 +6,7 @@ const foodSchema = new Schema({
     type: String,
     required: true,
   },
-  amount: {
+  quantity: {
     type: Number,
   },
   calorie: {
@@ -27,10 +27,6 @@ const foodSchema = new Schema({
   },
   createdAt: {
     type: Date,
-    required: true,
-  },
-  user_id: {
-    type: String,
     required: true,
   },
 });

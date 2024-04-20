@@ -1,23 +1,16 @@
 const express = require("express");
-
-const {
-    getFoods,
-    getFoodById,
-    addFood,
-    updateFood,
-    deleteFood,
-    getFoodsByDate,
-    } = require("../controllers/foodController");
-
-const requireAuth = require("../middlewares/requireAuth");
 const router = express.Router();
+const cors = require("cors");
 
-router.use(requireAuth);
-router.get("/", getFoods);
-router.get("/:id", getFoodById);
-router.post("/", addFood);
-router.put("/:id", updateFood);
-router.delete("/:id", deleteFood);
-router.get("/date/:date", getFoodsByDate);
+const { addFood } = require("../controllers/foodController");
+
+router.use(
+  cors({
+    credentials: true,
+    origin: "http://localhost:5173",
+  })
+);
+
+router.post("/addFood", addFood);
 
 module.exports = router;
