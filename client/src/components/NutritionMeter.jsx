@@ -9,7 +9,6 @@ import {
   faTimes,
   faPlus,
   faMinus,
-  faNetworkWired,
 } from "@fortawesome/free-solid-svg-icons";
 import "./NutritionMeter.css";
 import MealsContainer from "./MealsContainer";
