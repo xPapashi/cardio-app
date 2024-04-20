@@ -1,5 +1,4 @@
 import axios from "axios";
-import toast from "react-hot-toast";
 
 // check if user is logged in and redirect to dashboard
 function checkLoggedIn(setIsLoggedIn, navigate) {
