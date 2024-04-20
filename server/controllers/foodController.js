@@ -44,7 +44,6 @@ const addFood = async (req, res) => {
       });
     }
 
-
     const newFood = await Food.create({
       name,
       quantity,
@@ -65,8 +64,40 @@ const addFood = async (req, res) => {
 const getAllFoods = async (req, res) => {
   try {
     const { user_id } = req.body;
-    const foods = await Food.find({user_id: user_id});
+    const foods = await Food.find({ user_id: user_id });
     return res.json(foods);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const updateFood = async (req, res) => {
+  try {
+    const { _id, name, quantity, calorie, protein, carb, fat } = req.body;
+    const food = await Food.findByIdAndUpdate(_id, { name, quantity, calorie, protein, carb, fat });
+
+    if (!food) {
+      return res.json({
+        error: "Food not found",
+      });
+    }
+    return res.json(food);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const deleteFood = async (req, res) => {
+  try {
+    const { _id } = req.body;
+    const food = await Food.findByIdAndDelete(_id);
+
+    if (!food) {
+      return res.json({
+        error: "Food not found",
+      });
+    }
+    return res.json(food);
   } catch (error) {
     console.log(error);
   }
@@ -75,4 +106,6 @@ const getAllFoods = async (req, res) => {
 module.exports = {
   addFood,
   getAllFoods,
+  updateFood,
+  deleteFood,
 };
