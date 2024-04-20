@@ -193,9 +193,9 @@ const NutritionMeter = ({ selectedDay }) => {
       quantity: item.quantity,
     }));
   
-    setNutritionItems([...nutritionItems, ...newItems]);
+    // setNutritionItems([...nutritionItems, ...newItems]);
+    setNutritionItems(newItems);
   };
-    // setNutritionItems([...nutritionItems, { ...newItem, id: Date.now() }]);
 
   const addNutritionItem = async () => {
     if (
@@ -226,6 +226,7 @@ const NutritionMeter = ({ selectedDay }) => {
         console.log(error);
       }
       // setNutritionItems([...nutritionItems, { ...newItem, id: Date.now() }]);
+      getAllFoodsForUser(userData);
       setNewItem((prevItem) => ({
         name: "",
         calories: "",
