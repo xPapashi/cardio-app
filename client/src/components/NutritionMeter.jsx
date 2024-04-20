@@ -2,8 +2,15 @@ import React, { useState, useEffect, useContext } from "react";
 import { CircularProgressbarWithChildren, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import axios from "axios";
+import { toast } from "react-hot-toast";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUtensils, faTimes, faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
+import {
+  faUtensils,
+  faTimes,
+  faPlus,
+  faMinus,
+  faNetworkWired,
+} from "@fortawesome/free-solid-svg-icons";
 import "./NutritionMeter.css";
 import MealsContainer from "./MealsContainer";
 import Modal from "./modal/Modal";
@@ -59,8 +66,9 @@ const NutritionMeter = ({ selectedDay }) => {
     quantity: 1,
   });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (editItem) {
       updateItemFunction();
     } else {
@@ -155,7 +163,7 @@ const NutritionMeter = ({ selectedDay }) => {
     return totalFatGram;
   };
 
-  const addNutritionItem = () => {
+  const addNutritionItem = async () => {
     if (
       newItem.name &&
       newItem.calories >= 0 &&
@@ -163,17 +171,34 @@ const NutritionMeter = ({ selectedDay }) => {
       newItem.carbs >= 0 &&
       newItem.fat >= 0
     ) {
-      setNutritionItems([...nutritionItems, { ...newItem, id: Date.now() }]);
-      // setNutritionItems([...nutritionItems, { ...newItem, id: Date.now(), quantity: 1 }]);
+      try {
+        const { data } = await axios.post("/addFood", {
+          name: newItem.name.toLowerCase(),
+          quantity: newItem.quantity,
+          calorie: newItem.calories,
+          protein: newItem.protein,
+          carb: newItem.carbs,
+          fat: newItem.fat,
+          createdAt: new Date(),
+        });
+        if (data.error) {
+          toast.error(data.error);
+        } else {
+          console.log("Successfully added food");
+          console.log({data});
+        }
+      } catch (error) {
+        console.log(error);
+      }
+      // setNutritionItems([...nutritionItems, { ...newItem, id: Date.now() }]);
       setNewItem((prevItem) => ({
-        // ...prevItem,
         name: "",
         calories: "",
         protein: "",
         carbs: "",
         fat: "",
-        quantity: 1, // Reset quantity to 1
-      }));
+        quantity: 1,
+      })); //clear input fields 
 
       setInputError(false);
       setIsOpen(false);
