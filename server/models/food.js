@@ -6,9 +6,6 @@ const foodSchema = new Schema({
     type: String,
     required: true,
   },
-  quantity: {
-    type: Number,
-  },
   calorie: {
     type: Number,
     required: true,
@@ -25,10 +22,17 @@ const foodSchema = new Schema({
     type: Number,
     required: true,
   },
+  quantity: {
+    type: Number,
+  },
   createdAt: {
     type: Date,
     required: true,
   },
+  user_id: {
+    type: String,
+    required: true,
+  }
 });
 
 // Create food model using the foodSchema
