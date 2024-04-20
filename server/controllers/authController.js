@@ -102,6 +102,20 @@ const getProfile = async (req, res) => {
   }
 };
 
+const setCalorieGoal = async (req, res) => {
+  const { token } = req.cookies;
+  if (token) {
+    jwt.verify(token, process.env.JWT_SECRET, {}, async (err, user) => {
+      if (err) throw err;
+      const { calorieGoal } = req.body;
+      const updatedUser = await User.findByIdAndUpdate(user._id, { calorieGoal: calorieGoal });
+      res.json(updatedUser);
+    });
+  } else {
+    res.json(null);
+  }
+};
+
 // Logout User function
 const logoutUser = (req, res) => {
   res.clearCookie("token");
@@ -113,5 +127,6 @@ module.exports = {
   registerUser,
   loginUser,
   getProfile,
+  setCalorieGoal,
   logoutUser,
 };

@@ -1,0 +1,163 @@
+.accountContainer {
+  width: 100%;
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* justify-content: center; */
+  gap: 1.5rem;
+  border-radius: 10px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+}
+
+.accountTitle h1 {
+  font-size: 24px;
+  font-weight: 400;
+  margin: 0;
+  margin-top: 1rem;
+}
+
+.accountTitle::after {
+  content: "";
+  display: flex;
+  width: 100%;
+  height: 2px;
+  background-color: #646cff;
+}
+
+.profile {
+  display: flex;
+  background-color: #646cff;
+  border-radius: 50%;
+  box-shadow: rgba(0, 0, 0, 0.17) 0px -23px 25px 0px inset,
+    rgba(0, 0, 0, 0.15) 0px -36px 30px 0px inset, rgba(0, 0, 0, 0.1) 0px -79px 40px 0px inset,
+    rgba(0, 0, 0, 0.06) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px,
+    rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px,
+    rgba(0, 0, 0, 0.09) 0px 32px 16px;
+}
+
+.profile .avatar {
+  width: 180px;
+  height: 180px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #292c69;
+  
+}
+
+.accountOptions {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+}
+
+.accountOptions button {
+    outline: 1px solid #646cff;
+    border: none;
+    color: #646cff;
+    background-color: #FFF;
+    font-weight: 400;
+    transition: 0.25s ease;
+}
+
+.accountOptions button:hover {
+    background-color: #646cff;
+    color: #FFF;
+}
+
+.calorieGoalModal {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem
+
+}
+
+.calorieGoalTitle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+    margin-bottom: 1rem;
+}
+
+.calorieGoalTitle h1 {
+    font-weight: 700;
+}
+
+.calorieGoalTitle button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    background-color: #fff;
+    outline: 1px solid #646cff;
+    width: 10px;
+    height: 30px;
+    transition: 0.25s ease;
+}
+
+.calorieGoalTitle button:hover {
+    background-color: #646cff;
+    outline: 1px solid #fff;
+    color: #fff;
+}
+
+.calorieGoalInput {
+    display: flex;
+    flex-direction: column;
+    /* text-align: left; */
+    position: relative;
+    margin-bottom: 1rem;
+}
+
+.calorieGoalInput input {
+    border: none;
+    border-bottom: 2px solid #646cff;
+    outline: none;
+}
+
+.calorieGoalInput label {
+    color: #b3b3b3;
+    position: absolute;
+    font-weight: 400;
+    top: 30%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    transition: 0.35s;
+  }
+  
+  .calorieGoalInput input:focus ~ label,
+  .calorieGoalInput input:valid ~ label{
+    top: -45%;
+  }
+
+
+.calorieGoalSubmit button {
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    border: none;
+    outline: none;
+    background: linear-gradient(90deg, #646cff 0%, #292c69 100%);
+    color: white;
+    cursor: pointer;
+    letter-spacing: 5px;
+    font-weight: 400;
+    position: relative;
+    background-size: 200% 200%;
+    transition: all 0.35s ease;
+  }
+  
+  .calorieGoalSubmit button:hover {
+    animation: gradient 3s ease infinite;
+  }
+  
+  .calorieGoalSubmit button:active {
+    outline: none;
+  }
+  
+  .calorieGoalSubmit button:focus {
+    outline: none;
+  }
