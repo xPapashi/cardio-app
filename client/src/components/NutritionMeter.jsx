@@ -17,44 +17,6 @@ import Modal from "./modal/Modal";
 import { roundTwoDecimalPlaces } from "./utils/Utils";
 
 const NutritionMeter = ({ selectedDay }) => {
-  // const defaultItemsDisplayed = [
-  //   {
-  //     id: 1,
-  //     name: "Apple",
-  //     calories: 52,
-  //     protein: 0.26,
-  //     carbs: 14,
-  //     fat: 1,
-  //     quantity: 1,
-  //   },
-  //   {
-  //     id: 2,
-  //     name: "Banana",
-  //     calories: 89,
-  //     protein: 1.09,
-  //     carbs: 23,
-  //     fat: 5,
-  //     quantity: 1,
-  //   },
-  //   {
-  //     id: 3,
-  //     name: "Grapes",
-  //     calories: 40,
-  //     protein: 0.2,
-  //     carbs: 20,
-  //     fat: 2,
-  //     quantity: 1,
-  //   },
-  //   {
-  //     id: 4,
-  //     name: "Orange",
-  //     calories: 35,
-  //     protein: 0.15,
-  //     carbs: 25,
-  //     fat: 4,
-  //     quantity: 1,
-  //   },
-  // ];
   const defaultItemsDisplayed = [
     {
       id: 1,
@@ -67,7 +29,6 @@ const NutritionMeter = ({ selectedDay }) => {
     },
   ];
 
-  // const [nutritionItems, setNutritionItems] = useState(defaultItemsDisplayed);
   const [newItem, setNewItem] = useState({
     name: "",
     calories: "",
@@ -182,7 +143,7 @@ const NutritionMeter = ({ selectedDay }) => {
   const getAllFoodsForUser = async (userData) => {
     const { data } = await axios.post("/getAllFoods", { user_id: userData });
     console.log(data);
-  
+
     const newItems = data.map((item) => ({
       id: item._id,
       name: item.name,
@@ -192,7 +153,7 @@ const NutritionMeter = ({ selectedDay }) => {
       fat: item.fat,
       quantity: item.quantity,
     }));
-  
+
     // setNutritionItems([...nutritionItems, ...newItems]);
     setNutritionItems(newItems);
   };
@@ -220,14 +181,13 @@ const NutritionMeter = ({ selectedDay }) => {
           toast.error(data.error);
         } else {
           console.log("Successfully added food");
-          console.log({ data });
         }
       } catch (error) {
         console.log(error);
       }
       // setNutritionItems([...nutritionItems, { ...newItem, id: Date.now() }]);
       getAllFoodsForUser(userData);
-      setNewItem((prevItem) => ({
+      setNewItem(() => ({
         name: "",
         calories: "",
         protein: "",
@@ -262,7 +222,7 @@ const NutritionMeter = ({ selectedDay }) => {
     setNewItem({ ...item });
   };
 
-  const updateItemFunction = () => {
+  const updateItemFunction = async () => {
     if (
       newItem.name &&
       newItem.calories >= 0 &&
@@ -270,8 +230,26 @@ const NutritionMeter = ({ selectedDay }) => {
       newItem.carbs >= 0 &&
       newItem.fat >= 0
     ) {
-      const updatedItems = nutritionItems.map((item) => (item.id === newItem.id ? newItem : item));
-      setNutritionItems(updatedItems);
+      const fetchItem = nutritionItems.find((item) => item.id === editItem);
+      try {
+        const { data } = await axios.post("/updateFood", {
+          _id: fetchItem.id,
+          name: newItem.name.toLowerCase(),
+          quantity: newItem.quantity,
+          calorie: newItem.calories,
+          protein: newItem.protein,
+          carb: newItem.carbs,
+          fat: newItem.fat,
+        });
+        if (data.error) {
+          toast.error(data.error);
+        } else {
+          console.log("Successfully updated food");
+        }
+      } catch (error) {
+        console.log(error);
+      }
+
       setNewItem({
         name: "",
         calories: "",
@@ -280,6 +258,8 @@ const NutritionMeter = ({ selectedDay }) => {
         fat: "",
         quantity: 1,
       });
+      getAllFoodsForUser(userData);
+
       setEditItem(null);
       setInputError(false);
       setIsOpen(false);
@@ -288,7 +268,44 @@ const NutritionMeter = ({ selectedDay }) => {
     }
   };
 
-  const deleteItemFunction = (id) => {
+  // const updateItemFunction = () => {
+  //   if (
+  //     newItem.name &&
+  //     newItem.calories >= 0 &&
+  //     newItem.protein >= 0 &&
+  //     newItem.carbs >= 0 &&
+  //     newItem.fat >= 0
+  //   ) {
+  //     const updatedItems = nutritionItems.map((item) => (item.id === newItem.id ? newItem : item));
+  //     setNutritionItems(updatedItems);
+  //     setNewItem({
+  //       name: "",
+  //       calories: "",
+  //       protein: "",
+  //       carbs: "",
+  //       fat: "",
+  //       quantity: 1,
+  //     });
+  //     setEditItem(null);
+  //     setInputError(false);
+  //     setIsOpen(false);
+  //   } else {
+  //     setInputError(true);
+  //   }
+  // };
+
+  const deleteItemFunction = async (id) => {
+    try {
+      const { data } = await axios.post("/deleteFood", { _id: id });
+      if (data.error) {
+        toast.error(data.error);
+      } else {
+        console.log("Successfully deleted food");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+
     const updatedItems = nutritionItems.filter((item) => item.id !== id);
     setNutritionItems(updatedItems);
   };
