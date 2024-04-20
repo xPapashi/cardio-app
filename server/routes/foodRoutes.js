@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const cors = require("cors");
 
-const { addFood } = require("../controllers/foodController");
+const { addFood, getAllFoods } = require("../controllers/foodController");
 
 router.use(
   cors({
@@ -12,5 +12,6 @@ router.use(
 );
 
 router.post("/addFood", addFood);
+router.post("/getAllFoods", getAllFoods);
 
 module.exports = router;

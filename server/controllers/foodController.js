@@ -3,7 +3,7 @@ const Food = require("../models/food");
 // Add a food
 const addFood = async (req, res) => {
   try {
-    const { name, quantity, calorie, protein, carb, fat } = req.body;
+    const { name, quantity, calorie, protein, carb, fat, user_id } = req.body;
 
     if (!name) {
       return res.json({
@@ -53,6 +53,7 @@ const addFood = async (req, res) => {
       carb,
       fat,
       createdAt: new Date(),
+      user_id,
     });
     return res.json(newFood);
   } catch (error) {
@@ -60,6 +61,18 @@ const addFood = async (req, res) => {
   }
 };
 
+//get all foods by searching the user id and displaying all the foods that belong to that user
+const getAllFoods = async (req, res) => {
+  try {
+    const { user_id } = req.body;
+    const foods = await Food.find({user_id: user_id});
+    return res.json(foods);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 module.exports = {
   addFood,
+  getAllFoods,
 };

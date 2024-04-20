@@ -17,46 +17,57 @@ import Modal from "./modal/Modal";
 import { roundTwoDecimalPlaces } from "./utils/Utils";
 
 const NutritionMeter = ({ selectedDay }) => {
+  // const defaultItemsDisplayed = [
+  //   {
+  //     id: 1,
+  //     name: "Apple",
+  //     calories: 52,
+  //     protein: 0.26,
+  //     carbs: 14,
+  //     fat: 1,
+  //     quantity: 1,
+  //   },
+  //   {
+  //     id: 2,
+  //     name: "Banana",
+  //     calories: 89,
+  //     protein: 1.09,
+  //     carbs: 23,
+  //     fat: 5,
+  //     quantity: 1,
+  //   },
+  //   {
+  //     id: 3,
+  //     name: "Grapes",
+  //     calories: 40,
+  //     protein: 0.2,
+  //     carbs: 20,
+  //     fat: 2,
+  //     quantity: 1,
+  //   },
+  //   {
+  //     id: 4,
+  //     name: "Orange",
+  //     calories: 35,
+  //     protein: 0.15,
+  //     carbs: 25,
+  //     fat: 4,
+  //     quantity: 1,
+  //   },
+  // ];
   const defaultItemsDisplayed = [
     {
       id: 1,
-      name: "Apple",
-      calories: 52,
-      protein: 0.26,
-      carbs: 14,
-      fat: 1,
-      quantity: 1,
-    },
-    {
-      id: 2,
-      name: "Banana",
-      calories: 89,
-      protein: 1.09,
-      carbs: 23,
-      fat: 5,
-      quantity: 1,
-    },
-    {
-      id: 3,
-      name: "Grapes",
-      calories: 40,
-      protein: 0.2,
-      carbs: 20,
-      fat: 2,
-      quantity: 1,
-    },
-    {
-      id: 4,
-      name: "Orange",
-      calories: 35,
-      protein: 0.15,
-      carbs: 25,
-      fat: 4,
-      quantity: 1,
+      name: "",
+      calories: 0,
+      protein: 0,
+      carbs: 0,
+      fat: 0,
+      quantity: 0,
     },
   ];
 
-  const [nutritionItems, setNutritionItems] = useState(defaultItemsDisplayed);
+  // const [nutritionItems, setNutritionItems] = useState(defaultItemsDisplayed);
   const [newItem, setNewItem] = useState({
     name: "",
     calories: "",
@@ -76,24 +87,29 @@ const NutritionMeter = ({ selectedDay }) => {
     }
   };
 
-  //get user data from /profile and set calorieGoal to the user's calorieGoal
-  useEffect(() => {
-    axios
-      .get("/profile")
-      .then(({ data }) => {
-        setCalorieGoal(data.calorieGoal);
-      })
-      .catch(() => {
-        setCalorieGoal(0);
-      });
-  }, []);
-
+  const [userData, setUserData] = useState(0);
   const [editItem, setEditItem] = useState(null);
   const [totalCalories, setTotalCalories] = useState(0);
   const [showWarning, setShowWarning] = useState(false);
   const [inputError, setInputError] = useState(false);
   const [calorieGoal, setCalorieGoal] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
+
+  //get user data from /profile and set calorieGoal to the user's calorieGoal
+  useEffect(() => {
+    axios
+      .get("/profile")
+      .then(({ data }) => {
+        setCalorieGoal(data.calorieGoal);
+        setUserData(data.id);
+        getAllFoodsForUser(data.id);
+      })
+      .catch(() => {
+        setCalorieGoal(0);
+      });
+  }, []);
+
+  const [nutritionItems, setNutritionItems] = useState(defaultItemsDisplayed);
 
   const handleClose = (e) => {
     e.preventDefault();
@@ -163,6 +179,24 @@ const NutritionMeter = ({ selectedDay }) => {
     return totalFatGram;
   };
 
+  const getAllFoodsForUser = async (userData) => {
+    const { data } = await axios.post("/getAllFoods", { user_id: userData });
+    console.log(data);
+  
+    const newItems = data.map((item) => ({
+      id: item._id,
+      name: item.name,
+      calories: item.calorie,
+      protein: item.protein,
+      carbs: item.carb,
+      fat: item.fat,
+      quantity: item.quantity,
+    }));
+  
+    setNutritionItems([...nutritionItems, ...newItems]);
+  };
+    // setNutritionItems([...nutritionItems, { ...newItem, id: Date.now() }]);
+
   const addNutritionItem = async () => {
     if (
       newItem.name &&
@@ -180,12 +214,13 @@ const NutritionMeter = ({ selectedDay }) => {
           carb: newItem.carbs,
           fat: newItem.fat,
           createdAt: new Date(),
+          user_id: userData,
         });
         if (data.error) {
           toast.error(data.error);
         } else {
           console.log("Successfully added food");
-          console.log({data});
+          console.log({ data });
         }
       } catch (error) {
         console.log(error);
@@ -198,7 +233,7 @@ const NutritionMeter = ({ selectedDay }) => {
         carbs: "",
         fat: "",
         quantity: 1,
-      })); //clear input fields 
+      })); //clear input fields
 
       setInputError(false);
       setIsOpen(false);
