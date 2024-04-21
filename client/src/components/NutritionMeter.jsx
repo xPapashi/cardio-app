@@ -13,7 +13,7 @@ import {
 import "./NutritionMeter.css";
 import MealsContainer from "./MealsContainer";
 import Modal from "./modal/Modal";
-import { getCurrentYear, monthToNum, roundTwoDecimalPlaces } from "./utils/Utils";
+import { convertDate, splitDate, getCurrentYear, monthToNum, roundTwoDecimalPlaces } from "./utils/Utils";
 
 const NutritionMeter = ({selectedDay, dowTitle}) => {
   const defaultItemsDisplayed = [
@@ -44,7 +44,7 @@ const NutritionMeter = ({selectedDay, dowTitle}) => {
     if (editItem) {
       updateItemFunction();
     } else {
-      addNutritionItem();
+      addNutritionItem(selectedDay, dowTitle, getCurrentYear());
     }
   };
 
@@ -63,7 +63,8 @@ const NutritionMeter = ({selectedDay, dowTitle}) => {
       .then(({ data }) => {
         setCalorieGoal(data.calorieGoal);
         setUserData(data.id);
-        getAllFoodsForUser(data.id, selectedDay, monthToNum(dowTitle));
+        getAllFoodsForUser(data.id, selectedDay, dowTitle, getCurrentYear());
+        console.log(dowTitle);
       })
       .catch(() => {
         setCalorieGoal(0);
@@ -140,9 +141,8 @@ const NutritionMeter = ({selectedDay, dowTitle}) => {
     return totalFatGram;
   };
 
-  const getAllFoodsForUser = async (userData, day, month) => {
-    const dayNumber = day.split(" ")[1];
-    const date = `${getCurrentYear()}-${month}-${dayNumber}`;
+  const getAllFoodsForUser = async (userData, day, month, year) => {
+    const date = convertDate(day, month, year);
     const { data } = await axios.post("/getAllFoods", { user_id: userData, createdAt: date});
 
     const newItems = data.map((item) => ({
@@ -155,11 +155,11 @@ const NutritionMeter = ({selectedDay, dowTitle}) => {
       quantity: item.quantity,
     }));
 
-    // setNutritionItems([...nutritionItems, ...newItems]);
     setNutritionItems(newItems);
   };
 
-  const addNutritionItem = async () => {
+  const addNutritionItem = async (day, month, year) => {
+    console.log(splitDate(day));
     if (
       newItem.name &&
       newItem.calories >= 0 &&
@@ -175,7 +175,7 @@ const NutritionMeter = ({selectedDay, dowTitle}) => {
           protein: newItem.protein,
           carb: newItem.carbs,
           fat: newItem.fat,
-          createdAt: new Date(),
+          createdAt: new Date(year, monthToNum(month) - 1, Number(splitDate(day)) + 1),
           user_id: userData,
         });
         if (data.error) {
@@ -186,8 +186,7 @@ const NutritionMeter = ({selectedDay, dowTitle}) => {
       } catch (error) {
         console.log(error);
       }
-      // setNutritionItems([...nutritionItems, { ...newItem, id: Date.now() }]);
-      getAllFoodsForUser(userData);
+      getAllFoodsForUser(userData, selectedDay, dowTitle, getCurrentYear());
       setNewItem(() => ({
         name: "",
         calories: "",
@@ -259,7 +258,7 @@ const NutritionMeter = ({selectedDay, dowTitle}) => {
         fat: "",
         quantity: 1,
       });
-      getAllFoodsForUser(userData);
+      getAllFoodsForUser(userData, selectedDay, dowTitle, getCurrentYear());
 
       setEditItem(null);
       setInputError(false);

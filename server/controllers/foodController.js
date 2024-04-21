@@ -3,7 +3,7 @@ const Food = require("../models/food");
 // Add a food
 const addFood = async (req, res) => {
   try {
-    const { name, quantity, calorie, protein, carb, fat, user_id } = req.body;
+    const { name, quantity, calorie, protein, carb, fat, user_id, createdAt } = req.body;
 
     if (!name) {
       return res.json({
@@ -37,6 +37,7 @@ const addFood = async (req, res) => {
 
     const existingFood = await Food.findOne({
       name,
+      user_id,
     });
     if (existingFood) {
       return res.json({
@@ -51,7 +52,7 @@ const addFood = async (req, res) => {
       protein,
       carb,
       fat,
-      createdAt: new Date(),
+      createdAt,
       user_id,
     });
     return res.json(newFood);

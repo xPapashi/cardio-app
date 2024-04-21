@@ -54,3 +54,12 @@ export const monthToNum = (month) => {
   const monthIndex = monthNames.indexOf(month) + 1;
   return monthIndex.toString().padStart(2, "0");
 }
+
+//display correct date format
+export const splitDate = (day) => {
+  return day.split(" ")[1];
+}
+
+export const convertDate = (day, month, year) => {
+  return `${year}-${monthToNum(month)}-${splitDate(day)}`;
+}
