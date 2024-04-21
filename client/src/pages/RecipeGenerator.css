@@ -111,3 +111,19 @@ article a:hover {
   background-color: #ffffff;
   color: #646cff;
 }
+
+/* make the design responsive on smaller screens */
+
+@media (max-width: 768px) {
+  .nutrients ul {
+    width: 100%;
+  }
+
+  .meals {
+    flex-direction: column;
+  }
+
+  article {
+    margin: 1rem 0;
+  }
+}

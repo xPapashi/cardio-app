@@ -192,3 +192,53 @@
   .registerSubmit button:focus {
     outline: none;
   }
+
+/* make the design responsive on smaller screens */
+
+@media (max-width: 768px) {
+  .registerContent {
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .registerLeft {
+    min-width: 100%;
+    border-radius: 8px 8px 0 0;
+  }
+
+  .registerLeft .logo {
+    margin-left: 1.5rem;
+    margin-top: 1.5rem;
+    font-size: 2rem;
+    gap: 1rem;
+  }
+
+  .registerLeft .center {
+    padding-left: 1.5rem;
+  }
+
+  .registerRight {
+    min-width: 100%;
+    border-radius: 0 0 8px 8px;
+  }
+
+  .registerRight form {
+    padding: 1rem;
+  }
+
+  .registerInput::after {
+    height: 1px;
+  }
+
+  .registerInput label {
+    top: 20%;
+  }
+
+  .registerInput input {
+    padding: 0.5rem;
+  }
+
+  .registerSubmit button {
+    padding: 0.5rem;
+  }
+}

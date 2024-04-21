@@ -105,4 +105,50 @@
     max-height: 50%;
 }
 
-/* https://dribbble.com/shots/17598498-Marketing-Homepage/attachments/12748225?mode=media */
+/* make the design responsive on smaller screens */
+
+@media (max-width: 768px) {
+  .mainContent {
+    flex-direction: column;
+    gap: 5rem;
+  }
+
+  .mainLeft {
+    align-items: center;
+    text-align: center;
+  }
+
+  .mainLeft .welcome h1 {
+    font-size: 24px;
+  }
+
+  .homeLogin button {
+    padding: 0.5rem 2rem;
+    font-size: 14px;
+  }
+
+  .mainRight::after {
+    border-radius: 50%;
+  }
+
+  .circle::before {
+    font-size: 20px;
+    top: 50%;
+    left: -10%;
+    width: 40%;
+    height: 40%;
+  }
+
+  .circle::after {
+    font-size: 16px;
+    top: -10%;
+    left: 50%;
+    width: 40%;
+    height: 40%;
+  }
+
+  .mainRight img {
+    max-width: 300px;
+    max-height: 40%;
+  }
+}

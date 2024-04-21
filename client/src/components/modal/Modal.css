@@ -23,3 +23,12 @@
     rgba(0, 0, 0, 0.09) 0px -3px 5px;
     z-index: 1000;
 }
+
+/* make the design responsive on smaller screens */
+
+@media (max-width: 768px) {
+  .Modal {
+    width: 90%;
+    height: 90%;
+  }
+}

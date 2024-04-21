@@ -190,3 +190,57 @@
 .loginSubmit button:focus {
   outline: none;
 }
+
+/* make the design responsive on smaller screens */
+
+@media (max-width: 768px) {
+  .loginContent {
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .loginLeft {
+    min-width: 100%;
+    border-radius: 8px 8px 0 0;
+  }
+
+  .loginRight {
+    min-width: 100%;
+    border-radius: 0 0 8px 8px;
+  }
+
+  .loginLeft .logo {
+    margin-left: 1.5rem;
+    margin-top: 1.5rem;
+    font-size: 2rem;
+  }
+
+  .loginLeft .center {
+    padding-left: 1.5rem;
+  }
+
+  .loginLeft .link {
+    margin-left: 1.5rem;
+    padding-bottom: 1.5rem;
+  }
+
+  .loginRight {
+    padding: 1rem;
+  }
+
+  .loginInput::after {
+    height: 1px;
+  }
+
+  .loginInput label {
+    top: 20%;
+  }
+
+  .rememberPass {
+    margin-bottom: 1.5rem;
+  }
+
+  .loginSubmit button {
+    padding: 0.5rem;
+  }
+}

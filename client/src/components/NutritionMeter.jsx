@@ -64,7 +64,6 @@ const NutritionMeter = ({selectedDay, dowTitle}) => {
         setCalorieGoal(data.calorieGoal);
         setUserData(data.id);
         getAllFoodsForUser(data.id, selectedDay, dowTitle, getCurrentYear());
-        console.log(dowTitle);
       })
       .catch(() => {
         setCalorieGoal(0);
@@ -159,7 +158,6 @@ const NutritionMeter = ({selectedDay, dowTitle}) => {
   };
 
   const addNutritionItem = async (day, month, year) => {
-    console.log(splitDate(day));
     if (
       newItem.name &&
       newItem.calories >= 0 &&
@@ -181,7 +179,7 @@ const NutritionMeter = ({selectedDay, dowTitle}) => {
         if (data.error) {
           toast.error(data.error);
         } else {
-          console.log("Successfully added food");
+          toast.success("Successfully added food");
         }
       } catch (error) {
         console.log(error);
@@ -244,7 +242,7 @@ const NutritionMeter = ({selectedDay, dowTitle}) => {
         if (data.error) {
           toast.error(data.error);
         } else {
-          console.log("Successfully updated food");
+          toast.success("Successfully updated food");
         }
       } catch (error) {
         console.log(error);
@@ -300,7 +298,7 @@ const NutritionMeter = ({selectedDay, dowTitle}) => {
       if (data.error) {
         toast.error(data.error);
       } else {
-        console.log("Successfully deleted food");
+        toast.success("Successfully deleted food");
       }
     } catch (error) {
       console.log(error);
