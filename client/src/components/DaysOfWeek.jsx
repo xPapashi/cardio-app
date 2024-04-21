@@ -1,26 +1,21 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
+import { formatMonth, formatDate } from "./utils/Utils";
 import "./DaysOfWeek.css";
 
-function DaysOfWeek({ onSelectDay }) {
+function DaysOfWeek(props) {
   const [currentDate, setCurrentDate] = useState(new Date());
+  const [selectedDay, setSelectedDay] = useState(null);
+
+  const selectDay = (day) => {
+    setSelectedDay(day);
+    props.onDaySelect(day);
+    props.setDowTitle(formatMonth(currentDate));
+  };
 
   const handleDateChange = (daysToAdd) => {
     const newDate = new Date(currentDate);
     newDate.setDate(currentDate.getDate() + daysToAdd);
     setCurrentDate(newDate);
-  };
-
-  const formatDate = (date, fullday = false) => {
-    const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-    const fullDays = ["SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY"];
-    const dayName = fullday ? fullDays[date.getDay()] : days[date.getDay()];
-    const dayOfMonth = date.getDate();
-    return `${dayName} ${dayOfMonth}`;
-  };
-
-  const formatMonth = (date) => {
-    const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-    return months[date.getMonth()];
   };
 
   return (
@@ -35,9 +30,26 @@ function DaysOfWeek({ onSelectDay }) {
             <button
               className="day"
               key={index}
-              onClick={() => onSelectDay(formatDate(new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate() + index), true))}
+              onClick={() =>
+                selectDay(
+                  formatDate(
+                    new Date(
+                      currentDate.getFullYear(),
+                      currentDate.getMonth(),
+                      currentDate.getDate() + index
+                    ),
+                    true
+                  )
+                )
+              }
             >
-              {formatDate(new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate() + index))}
+              {formatDate(
+                new Date(
+                  currentDate.getFullYear(),
+                  currentDate.getMonth(),
+                  currentDate.getDate() + index
+                )
+              )}
             </button>
           ))}
           <button onClick={() => handleDateChange(1)}>&gt;</button>

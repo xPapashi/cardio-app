@@ -41,6 +41,7 @@ export default function Account() {
     const calories = e.target.calories.value;
     try {
       await axios.put("/setCalorieGoal", { calorieGoal: calories });
+      toast.success(`Calorie goal updated to ${calories} calories!`);
     } catch (error) {
       console.log(error);
     }

@@ -13,9 +13,9 @@ import {
 import "./NutritionMeter.css";
 import MealsContainer from "./MealsContainer";
 import Modal from "./modal/Modal";
-import { roundTwoDecimalPlaces } from "./utils/Utils";
+import { getCurrentYear, monthToNum, roundTwoDecimalPlaces } from "./utils/Utils";
 
-const NutritionMeter = ({ selectedDay }) => {
+const NutritionMeter = ({selectedDay, dowTitle}) => {
   const defaultItemsDisplayed = [
     {
       id: 1,
@@ -36,6 +36,7 @@ const NutritionMeter = ({ selectedDay }) => {
     fat: "",
     quantity: 1,
   });
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -62,12 +63,12 @@ const NutritionMeter = ({ selectedDay }) => {
       .then(({ data }) => {
         setCalorieGoal(data.calorieGoal);
         setUserData(data.id);
-        getAllFoodsForUser(data.id);
+        getAllFoodsForUser(data.id, selectedDay, monthToNum(dowTitle));
       })
       .catch(() => {
         setCalorieGoal(0);
       });
-  }, []);
+  }, [selectedDay]);
 
   const [nutritionItems, setNutritionItems] = useState(defaultItemsDisplayed);
 
@@ -139,9 +140,10 @@ const NutritionMeter = ({ selectedDay }) => {
     return totalFatGram;
   };
 
-  const getAllFoodsForUser = async (userData) => {
-    const { data } = await axios.post("/getAllFoods", { user_id: userData });
-    console.log(data);
+  const getAllFoodsForUser = async (userData, day, month) => {
+    const dayNumber = day.split(" ")[1];
+    const date = `${getCurrentYear()}-${month}-${dayNumber}`;
+    const { data } = await axios.post("/getAllFoods", { user_id: userData, createdAt: date});
 
     const newItems = data.map((item) => ({
       id: item._id,
@@ -458,7 +460,7 @@ const NutritionMeter = ({ selectedDay }) => {
         </form>
       )}
       <div className="container">
-        <h1 className="Title">{selectedDay}</h1>
+        <h1 className="Title">{`${selectedDay} ${dowTitle}`}</h1>
         {showWarning && (
           <div className="warning">
             <FontAwesomeIcon icon={faTimes} className="icon-warning" />
