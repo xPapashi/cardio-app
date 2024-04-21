@@ -108,8 +108,8 @@ const setCalorieGoal = async (req, res) => {
     jwt.verify(token, process.env.JWT_SECRET, {}, async (err, user) => {
       if (err) throw err;
       const { calorieGoal } = req.body;
-      const updatedUser = await User.findByIdAndUpdate(user._id, { calorieGoal: calorieGoal });
-      res.json(updatedUser);
+      const updatedUser = await User.findByIdAndUpdate(user.id, { calorieGoal: calorieGoal });
+      res.json(updatedUser); // Only send the response once
     });
   } else {
     res.json(null);

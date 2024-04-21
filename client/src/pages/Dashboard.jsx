@@ -3,32 +3,26 @@ import NutritionMeter from "../components/NutritionMeter";
 import DaysOfWeek from "../components/DaysOfWeek";
 import { fetchUserProfile } from "../components/auth/auth";
 import { useNavigate } from "react-router-dom";
+import { formatDate, formatMonth } from "../components/utils/Utils";
 
 export default function Dashboard() {
-  const [selectedDay, setSelectedDay] = useState(getCurrentDay());
   const navigate = useNavigate();
+  const [selectedDay, setSelectedDay] = useState(formatDate(new Date(), true));
+  const [dowTitle, setDowTitle] = useState(formatMonth(new Date()));
   const [isloggedIn, setIsLoggedIn] = useState(false);
-  
+
+  const handleDaySelect = (day) => {
+    setSelectedDay(day);
+  };
+
   useEffect(() => {
     fetchUserProfile(setIsLoggedIn, "/login", navigate);
   }, [navigate]);
 
-
-
   return (
     <main>
-      <DaysOfWeek onSelectDay={(day) => setSelectedDay(day)} />
-      <NutritionMeter selectedDay={selectedDay} />
+      <DaysOfWeek onDaySelect={handleDaySelect} setDowTitle={setDowTitle}/>
+      <NutritionMeter selectedDay={selectedDay} dowTitle={dowTitle} />
     </main>
   );
 }
-
-const getCurrentDay = () => {
-  const days = ["SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY"];
-  const currentDate = new Date();
-  const currentDayIndex = currentDate.getDay();
-  const dayName = days[currentDayIndex];
-  const dayOfMonth = currentDate.getDate();
-
-  return `${dayName} ${dayOfMonth}`;
-};

@@ -63,9 +63,16 @@ const addFood = async (req, res) => {
 //get all foods by searching the user id and displaying all the foods that belong to that user
 const getAllFoods = async (req, res) => {
   try {
-    const { user_id } = req.body;
+    const { user_id, createdAt } = req.body;
+
     const foods = await Food.find({ user_id: user_id });
-    return res.json(foods);
+    //only display foods that were created on the same day as createdAT from req.body
+    const filteredFoods = foods.filter((food) => {
+      const foodDateString = food.createdAt.toISOString().split("T")[0];
+      return foodDateString === createdAt;
+    });
+
+    return res.json(filteredFoods);
   } catch (error) {
     console.log(error);
   }
