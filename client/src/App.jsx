@@ -14,7 +14,7 @@ import Account from "./pages/Account";
 import "./App.css";
 import "./index.css";
 
-axios.defaults.baseURL = "http://localhost:8000";
+axios.defaults.baseURL = `${process.env.VITE_REACT_APP_BACKEND_BASEURL}`;
 axios.defaults.withCredentials = true;
 
 function App() {

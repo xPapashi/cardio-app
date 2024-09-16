@@ -13,7 +13,7 @@ mongoose
     app.listen(port, () => console.log(`Server is running on port ${port}`));
     console.log("Database: Connected");
   })
-  .catch(() => console.log("Database: Unable to connect", err));
+  .catch((err) => console.log("Database: Unable to connect", err));
 
 //Middleware
 app.use(express.json());
