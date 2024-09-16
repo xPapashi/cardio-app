@@ -22,3 +22,5 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use("/", require("./routes/authRoutes"))
 app.use("/", require("./routes/foodRoutes"))
+
+module.exports = app;
