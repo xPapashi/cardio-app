@@ -13,7 +13,7 @@ const {
 router.use(
   cors({
     credentials: true,
-    origin: `${import.meta.env.FRONTEND_BASEURL}`,
+    origin: import.meta.env.FRONTEND_BASEURL,
   })
 );
 
