@@ -76,7 +76,7 @@ const loginUser = async (req, res) => {
         {expiresIn: "3d"},
         (err, token) => {
           if (err) throw err;
-          res.cookie("token", token).json(user);
+          res.cookie("token", token, { httpOnly: true }).json(user);
         }
       );
     }
@@ -89,11 +89,16 @@ const loginUser = async (req, res) => {
   } catch (error) {
     console.log(error);
   }
+
+  console.log("Generated Token:", token);
 };
 
 //Get User Account
 const getProfile = async (req, res) => {
   const { token } = req.cookies;
+  console.log(token);
+  console.log(`GET PROFILE JWT SECRET: ${process.env.JWT_SECRET}`);
+
   if (token) {
     jwt.verify(token, process.env.JWT_SECRET, {}, (err, user) => {
       if (err) throw err;
@@ -102,6 +107,8 @@ const getProfile = async (req, res) => {
   } else {
     res.json(null);
   }
+
+  console.log("Received Token:", token);
 };
 
 const setCalorieGoal = async (req, res) => {
