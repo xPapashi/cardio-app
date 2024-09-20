@@ -68,6 +68,8 @@ const loginUser = async (req, res) => {
     //Check if passwords match
     const match = await comparePasswords(password, user.password);
     if (match) {
+      console.log("User logged in successfully!");
+      console.log(`JWT SECRET: ${process.env.JWT_SECRET}`);
       jwt.sign(
         { id: user._id, name: user.name, email: user.email, calorieGoal: user.calorieGoal },
         process.env.JWT_SECRET,
