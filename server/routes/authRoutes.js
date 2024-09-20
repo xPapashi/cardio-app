@@ -13,11 +13,10 @@ const {
 router.use(
   cors({
     credentials: true,
-    origin: process.env.VITE_REACT_APP_BACKEND_BASEURL,
+    origin: `${import.meta.env.FRONTEND_BASEURL}`,
   })
 );
 
-console.log(`AuthROutes backend url is: ${process.env.VITE_REACT_APP_BACKEND_BASEURL}`);
 
 router.get("/", connTest);
 router.post("/register", registerUser);

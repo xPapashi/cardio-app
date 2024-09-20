@@ -7,7 +7,7 @@ const { addFood, getAllFoods, updateFood, deleteFood } = require("../controllers
 router.use(
   cors({
     credentials: true,
-    origin: `${process.env.VITE_REACT_APP_BACKEND_BASEURL}`,
+    origin: `${import.meta.env.FRONTEND_BASEURL}`,
   })
 );
 
