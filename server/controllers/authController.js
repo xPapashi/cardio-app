@@ -19,7 +19,8 @@ const registerUser = async (req, res) => {
     //Check if pass valid
     if (!password || password.length < 6) {
       return res.json({
-        error: "Password is required and it sohuld be at least 6 characters long!",
+        error:
+          "Password is required and it sohuld be at least 6 characters long!",
       });
     }
     //Check email taken/valid
@@ -71,11 +72,18 @@ const loginUser = async (req, res) => {
       console.log("User logged in successfully!");
       console.log(`JWT SECRET: ${process.env.JWT_SECRET}`);
       jwt.sign(
-        { id: user._id, name: user.name, email: user.email, calorieGoal: user.calorieGoal },
+        {
+          id: user._id,
+          name: user.name,
+          email: user.email,
+          calorieGoal: user.calorieGoal,
+        },
         process.env.JWT_SECRET,
-        {expiresIn: "3d"},
+        { expiresIn: "3d" },
         (err, token) => {
           if (err) throw err;
+
+          console.log("Generated Token:", token);
           res.cookie("token", token, { httpOnly: true }).json(user);
         }
       );
@@ -89,8 +97,6 @@ const loginUser = async (req, res) => {
   } catch (error) {
     console.log(error);
   }
-
-  console.log("Generated Token:", token);
 };
 
 //Get User Account
@@ -117,7 +123,9 @@ const setCalorieGoal = async (req, res) => {
     jwt.verify(token, process.env.JWT_SECRET, {}, async (err, user) => {
       if (err) throw err;
       const { calorieGoal } = req.body;
-      const updatedUser = await User.findByIdAndUpdate(user.id, { calorieGoal: calorieGoal });
+      const updatedUser = await User.findByIdAndUpdate(user.id, {
+        calorieGoal: calorieGoal,
+      });
       res.json(updatedUser); // Only send the response once
     });
   } else {
