@@ -17,6 +17,8 @@ router.use(
   })
 );
 
+console.log(`AuthROutes backend url is: ${process.env.VITE_REACT_APP_BACKEND_BASEURL}`);
+
 router.get("/", connTest);
 router.post("/register", registerUser);
 router.post("/login", loginUser);
