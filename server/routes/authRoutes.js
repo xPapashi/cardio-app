@@ -13,7 +13,7 @@ const {
 router.use(
   cors({
     credentials: true,
-    origin: `${process.env.VITE_REACT_APP_BACKEND_BASEURL}`,
+    origin: process.env.VITE_REACT_APP_BACKEND_BASEURL,
   })
 );
 
