@@ -72,7 +72,7 @@ const loginUser = async (req, res) => {
       console.log(`JWT SECRET: ${process.env.JWT_SECRET}`);
       jwt.sign(
         { id: user._id, name: user.name, email: user.email, calorieGoal: user.calorieGoal },
-        "211503111821",
+        process.env.JWT_SECRET,
         {expiresIn: "3d"},
         (err, token) => {
           if (err) throw err;
