@@ -84,7 +84,7 @@ const loginUser = async (req, res) => {
           if (err) throw err;
 
           console.log("Generated Token:", token);
-          res.cookie("token", token, { httpOnly: true }).json(user);
+          res.cookie("token", token).json(user);
         }
       );
     }
@@ -99,7 +99,6 @@ const loginUser = async (req, res) => {
   }
 };
 
-//Get User Account
 const getProfile = async (req, res) => {
   const { token } = req.cookies;
   console.log(token);

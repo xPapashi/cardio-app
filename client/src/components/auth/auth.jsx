@@ -1,5 +1,7 @@
 import axios from "axios";
 
+axios.defaults.withCredentials = true;
+
 // check if user is logged in and redirect to dashboard
 function checkLoggedIn(setIsLoggedIn, navigate) {
   axios
