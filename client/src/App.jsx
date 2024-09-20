@@ -14,7 +14,7 @@ import Account from "./pages/Account";
 import "./App.css";
 import "./index.css";
 
-axios.defaults.baseURL = `${process.env.AXIOS_BASE_URL}`;
+axios.defaults.baseURL = import.meta.env.VITE_AXIOS_BASE_URL
 axios.defaults.withCredentials = true;
 
 function App() {
