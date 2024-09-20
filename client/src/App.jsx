@@ -14,7 +14,7 @@ import Account from "./pages/Account";
 import "./App.css";
 import "./index.css";
 
-axios.defaults.baseURL = "http://localhost:8000";
+axios.defaults.baseURL = import.meta.env.BACKEND_AXIOS_BASEURL;
 axios.defaults.withCredentials = true;
 
 function App() {

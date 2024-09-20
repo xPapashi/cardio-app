@@ -13,7 +13,7 @@ const {
 router.use(
   cors({
     credentials: true,
-    origin: "http://localhost:5173",
+    origin: `${import.meta.env.FRONTEND_BASEURL}`,
   })
 );
 
