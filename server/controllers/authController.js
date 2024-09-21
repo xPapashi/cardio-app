@@ -69,8 +69,6 @@ const loginUser = async (req, res) => {
     //Check if passwords match
     const match = await comparePasswords(password, user.password);
     if (match) {
-      console.log("User logged in successfully!");
-      console.log(`JWT SECRET: ${process.env.JWT_SECRET}`);
       jwt.sign(
         {
           id: user._id,
@@ -83,7 +81,6 @@ const loginUser = async (req, res) => {
         (err, token) => {
           if (err) throw err;
 
-          console.log("Generated Token:", token);
           res.cookie("token", token, {sameSite: 'None', secure: true}).json(user);
         }
       );
@@ -101,8 +98,6 @@ const loginUser = async (req, res) => {
 
 const getProfile = async (req, res) => {
   const { token } = req.cookies;
-  console.log(token);
-  console.log(`GET PROFILE JWT SECRET: ${process.env.JWT_SECRET}`);
 
   if (token) {
     jwt.verify(token, process.env.JWT_SECRET, {}, (err, user) => {
@@ -112,8 +107,6 @@ const getProfile = async (req, res) => {
   } else {
     res.json(null);
   }
-
-  console.log("Received Token:", token);
 };
 
 const setCalorieGoal = async (req, res) => {
@@ -135,6 +128,7 @@ const setCalorieGoal = async (req, res) => {
 // Logout User function
 const logoutUser = (req, res) => {
   res.clearCookie("token");
+  res.setCookie("token", "", {expires: Date.now()});
   res.json({ message: "User logged out successfully!" });
 };
 
