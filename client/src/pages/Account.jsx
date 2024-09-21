@@ -24,7 +24,7 @@ export default function Account() {
       await axios.post("/logout");
       // console.log(localStorage);
       // localStorage.clear("token");
-      document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+      document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; SameSite=None; Secure;";
       toast.success("You have been logged out");
       setIsLoggedIn(false);
       navigate("/");
