@@ -14,7 +14,7 @@ import Account from "./pages/Account";
 import "./App.css";
 import "./index.css";
 
-axios.defaults.baseURL = "https://cardio-app.vercel.app";
+axios.defaults.baseURL = import.meta.env.BACKEND_BASEURL;
 axios.defaults.withCredentials = true;
 
 function App() {
