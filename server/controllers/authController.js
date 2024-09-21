@@ -84,7 +84,7 @@ const loginUser = async (req, res) => {
           if (err) throw err;
 
           console.log("Generated Token:", token);
-          res.cookie("token", token).json(user);
+          res.cookie("token", token, {sameSite: 'strict'}).json(user);
         }
       );
     }
