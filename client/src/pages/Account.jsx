@@ -22,6 +22,7 @@ export default function Account() {
   const handleLogout = async () => {
     try {
       await axios.post("/logout");
+      console.log(localStorage);
       localStorage.clear("token");
       toast.success("You have been logged out");
       setIsLoggedIn(false);
