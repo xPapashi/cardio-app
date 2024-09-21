@@ -127,7 +127,10 @@ const setCalorieGoal = async (req, res) => {
 
 // Logout User function
 const logoutUser = (req, res) => {
-  res.clearCookie("token");
+  res.clearCookie("token", {
+    sameSite: 'None',
+    secure: true,
+  });
   res.json({ message: "User logged out successfully!" });
 };
 
