@@ -22,8 +22,9 @@ export default function Account() {
   const handleLogout = async () => {
     try {
       await axios.post("/logout");
-      console.log(localStorage);
-      localStorage.clear("token");
+      // console.log(localStorage);
+      // localStorage.clear("token");
+      document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
       toast.success("You have been logged out");
       setIsLoggedIn(false);
       navigate("/");
