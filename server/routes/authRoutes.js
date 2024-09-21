@@ -13,7 +13,7 @@ const {
 router.use(
   cors({
     credentials: true,
-    origin: "https://cardio-app-zqxv.vercel.app",
+    origin: process.env.FRONTEND_BASEURL,
   })
 );
 

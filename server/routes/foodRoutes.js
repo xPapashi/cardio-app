@@ -7,7 +7,7 @@ const { addFood, getAllFoods, updateFood, deleteFood } = require("../controllers
 router.use(
   cors({
     credentials: true,
-    origin: "https://cardio-app-zqxv.vercel.app",
+    origin: process.env.FRONTEND_BASEURL,
   })
 );
 
